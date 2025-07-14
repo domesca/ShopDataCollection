@@ -66,14 +66,15 @@
     <input type="number" placeholder="Dessert Packages" name="shelves_desserts">
     <input type="number" placeholder="Tinned Food" name="shelves_tinned">
 
-    <label for="category">4. Select Product Categories</label>
-    <select name="categories" id="categories" multiple onchange="showBrandSections()">
+    <label>4. Select Product Categories (1 to 5)</label>
+    <select name="categories" id="categories" multiple>
       <option value="Recipe Mixes">Recipe Mixes</option>
       <option value="Pickles">Pickles</option>
       <option value="Sauces">Sauces</option>
       <option value="Dessert Packages">Dessert Packages</option>
       <option value="Tinned Food">Tinned Food</option>
     </select>
+    <button type="button" onclick="addSelectedCategories()">Add Selected Categories</button>
 
     <div id="brandSections"></div>
 
@@ -82,30 +83,42 @@
 
   <script>
     const brandSectionsDiv = document.getElementById("brandSections");
+    const addedCategories = new Set();
 
-    function showBrandSections() {
+    function addSelectedCategories() {
       const selected = Array.from(document.getElementById("categories").selectedOptions).map(opt => opt.value);
-      brandSectionsDiv.innerHTML = "";
 
       selected.forEach(category => {
-        const section = document.createElement("div");
-        section.className = "category-block";
-        section.innerHTML = `<h3>${category}</h3>`;
+        if (!addedCategories.has(category)) {
+          const section = document.createElement("div");
+          section.className = "category-block";
+          section.id = `section_${category}`;
+          section.innerHTML = `<h3>${category} <button type='button' onclick='removeCategory("${category}")'>Remove</button></h3>`;
 
-        for (let i = 1; i <= 5; i++) {
-          const entry = document.createElement("div");
-          entry.className = "brand-entry";
-          entry.innerHTML = `
-            <label>${category} - Brand ${i}</label><br>
-            <input type="text" name="brand_${category}_${i}" placeholder="Brand Name">
-            <input type="text" name="weight_${category}_${i}" placeholder="Weight (e.g. 100g)">
-            <input type="text" name="price_${category}_${i}" placeholder="Price (e.g. £1.50)">
-          `;
-          section.appendChild(entry);
+          for (let i = 1; i <= 5; i++) {
+            const entry = document.createElement("div");
+            entry.className = "brand-entry";
+            entry.innerHTML = `
+              <label>${category} - Brand ${i}</label><br>
+              <input type="text" name="brand_${category}_${i}" placeholder="Brand Name">
+              <input type="text" name="weight_${category}_${i}" placeholder="Weight (e.g. 100g)">
+              <input type="number" step="0.01" name="price_${category}_${i}" placeholder="Price (e.g. 1.50)">
+            `;
+            section.appendChild(entry);
+          }
+
+          brandSectionsDiv.appendChild(section);
+          addedCategories.add(category);
         }
-
-        brandSectionsDiv.appendChild(section);
       });
+    }
+
+    function removeCategory(category) {
+      const section = document.getElementById(`section_${category}`);
+      if (section) {
+        section.remove();
+        addedCategories.delete(category);
+      }
     }
 
     document.getElementById("dataForm").addEventListener("submit", async function(e) {
@@ -113,15 +126,19 @@
 
       const form = e.target;
       const formData = new FormData(form);
-      const categories = Array.from(document.getElementById("categories").selectedOptions).map(opt => opt.value);
 
-      for (const category of categories) {
+      for (const category of addedCategories) {
         for (let i = 1; i <= 5; i++) {
           const brand = formData.get(`brand_${category}_${i}`);
           const weight = formData.get(`weight_${category}_${i}`);
           const price = formData.get(`price_${category}_${i}`);
 
           if (brand && weight && price) {
+            if (isNaN(price) || Number(price) < 0) {
+              alert(`Price must be a valid number for ${category} - Brand ${i}`);
+              return;
+            }
+
             const record = {
               collector: formData.get("collectorName"),
               postcode: formData.get("postcode"),
@@ -151,8 +168,8 @@
       alert("Submitted successfully!");
       form.reset();
       brandSectionsDiv.innerHTML = "";
+      addedCategories.clear();
     });
   </script>
 </body>
 </html>
-
