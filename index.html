@@ -82,13 +82,13 @@
     <input type="number" id="shelves_tinned" name="shelves_tinned">
 
     <label for="categories">Select Product Categories (1 to 5)</label>
-    <select id="categories" name="categories" multiple title="Choose product categories">
-      <option value="Recipe Mixes">Recipe Mixes</option>
-      <option value="Pickles">Pickles</option>
-      <option value="Sauces">Sauces</option>
-      <option value="Dessert Packages">Dessert Packages</option>
-      <option value="Tinned Food">Tinned Food</option>
-    </select>
+<select name="categories" id="categories" multiple title="Select one or more product categories">
+  <option value="Recipe Mixes">Recipe Mixes</option>
+  <option value="Pickles">Pickles</option>
+  <option value="Sauces">Sauces</option>
+  <option value="Dessert Packages">Dessert Packages</option>
+  <option value="Tinned Food">Tinned Food</option>
+</select>
     <button type="button" onclick="addSelectedCategories()">Add Selected Categories</button>
 
     <div id="brandSections"></div>
