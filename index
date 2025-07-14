@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Data Collection</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      padding: 20px;
+    }
+    h2, h3 {
+      text-align: center;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input, select, textarea, button {
+      padding: 10px;
+      font-size: 1em;
+      margin-top: 5px;
+    }
+    .brand-group {
+      margin-bottom: 20px;
+    }
+    .brand-entry {
+      margin-bottom: 10px;
+      border-bottom: 1px dashed #ccc;
+      padding-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Product Data Collection Form</h2>
+  <form id="dataForm">
+
+    <label for="collectorName">1. Data Collector Name</label>
+    <input type="text" id="collectorName" name="collectorName" required>
+
+    <label>2. Area Information</label>
+    <input type="text" placeholder="Postcode" name="postcode" required>
+    <input type="text" placeholder="Lane" name="lane">
+    <input type="text" placeholder="Borough" name="borough">
+    <input type="text" placeholder="City" name="city" required>
+
+    <label>3. Shop Information</label>
+    <input type="text" placeholder="Shop Name" name="shopName" required>
+    <input type="text" placeholder="Shop Size (Small/Medium/Large)" name="shopSize">
+    <input type="number" placeholder="Number of Counters" name="numCounters">
+
+    <label>Number of Shelves by Category</label>
+    <input type="number" placeholder="Recipe Mixes" name="shelves_recipe">
+    <input type="number" placeholder="Pickles" name="shelves_pickles">
+    <input type="number" placeholder="Sauces" name="shelves_sauces">
+    <input type="number" placeholder="Dessert Packages" name="shelves_desserts">
+    <input type="number" placeholder="Tinned Food" name="shelves_tinned">
+
+    <label for="category">4. Select Product Category</label>
+    <select name="category" id="category" required onchange="showBrandSection()">
+      <option value="">-- Choose a Category --</option>
+      <option value="Recipe Mixes">Recipe Mixes</option>
+      <option value="Pickles">Pickles</option>
+      <option value="Sauces">Sauces</option>
+      <option value="Dessert Packages">Dessert Packages</option>
+      <option value="Tinned Food">Tinned Food</option>
+    </select>
+
+    <div id="brandSection" class="brand-group" style="display:none;">
+      <h3>Enter up to 5 brands</h3>
+      <div id="brandEntries"></div>
+    </div>
+
+    <button type="submit" style="margin-top: 20px;">Submit</button>
+  </form>
+
+  <script>
+    const brandEntriesDiv = document.getElementById("brandEntries");
+    const brandSection = document.getElementById("brandSection");
+
+    function showBrandSection() {
+      brandSection.style.display = "block";
+      brandEntriesDiv.innerHTML = "";
+      for (let i = 1; i <= 5; i++) {
+        const entry = document.createElement("div");
+        entry.className = "brand-entry";
+        entry.innerHTML = `
+          <label>Brand ${i}</label><br>
+          <input type="text" name="brand${i}" placeholder="Brand Name">
+          <input type="text" name="weight${i}" placeholder="Weight (e.g. 100g)">
+          <input type="text" name="price${i}" placeholder="Price (e.g. £1.50)">
+        `;
+        brandEntriesDiv.appendChild(entry);
+      }
+    }
+
+    document.getElementById("dataForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const form = e.target;
+      const formData = new FormData(form);
+      const payload = {
+        collector: formData.get("collectorName"),
+        postcode: formData.get("postcode"),
+        lane: formData.get("lane"),
+        borough: formData.get("borough"),
+        city: formData.get("city"),
+        shopName: formData.get("shopName"),
+        shopSize: formData.get("shopSize"),
+        counters: formData.get("numCounters"),
+        category: formData.get("category"),
+        brands: []
+      };
+
+      for (let i = 1; i <= 5; i++) {
+        const brand = formData.get(`brand${i}`);
+        const weight = formData.get(`weight${i}`);
+        const price = formData.get(`price${i}`);
+        if (brand && weight && price) {
+          payload.brands.push({ brand, weight, price });
+        }
+      }
+
+      for (const brand of payload.brands) {
+        const record = {
+          ...payload,
+          brand: brand.brand,
+          weight: brand.weight,
+          price: brand.price
+        };
+        delete record.brands;
+
+        await fetch("https://script.google.com/macros/s/AKfycbznIYwyw0ywfrV0fkehqvENq0Jf2gPYgdHmct9rYfjXCKafCoCYX-b-mmbY3uUIaWx3/exec", {
+          method: "POST",
+          body: JSON.stringify(record),
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+      }
+
+      alert("Submitted successfully!");
+      form.reset();
+      brandSection.style.display = "none";
+    });
+  </script>
+</body>
+</html>
