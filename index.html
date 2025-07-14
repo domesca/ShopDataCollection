@@ -26,9 +26,6 @@
       font-size: 1em;
       margin-top: 5px;
     }
-    .brand-group {
-      margin-bottom: 20px;
-    }
     .brand-entry {
       margin-bottom: 10px;
       border-bottom: 1px dashed #ccc;
@@ -45,29 +42,47 @@
   <h2>Product Data Collection Form</h2>
   <form id="dataForm">
 
-    <label for="collectorName">1. Data Collector Name</label>
+    <label for="collectorName">Data Collector Name</label>
     <input type="text" id="collectorName" name="collectorName" required>
 
-    <label>2. Area Information</label>
-    <input type="text" placeholder="Postcode" name="postcode" required>
-    <input type="text" placeholder="Lane" name="lane">
-    <input type="text" placeholder="Borough" name="borough">
-    <input type="text" placeholder="City" name="city" required>
+    <label for="postcode">Postcode</label>
+    <input type="text" id="postcode" name="postcode" required>
 
-    <label>3. Shop Information</label>
-    <input type="text" placeholder="Shop Name" name="shopName" required>
-    <input type="text" placeholder="Shop Size (Small/Medium/Large)" name="shopSize">
-    <input type="number" placeholder="Number of Counters" name="numCounters">
+    <label for="lane">Lane</label>
+    <input type="text" id="lane" name="lane">
 
-    <label>Number of Shelves by Category</label>
-    <input type="number" placeholder="Recipe Mixes" name="shelves_recipe">
-    <input type="number" placeholder="Pickles" name="shelves_pickles">
-    <input type="number" placeholder="Sauces" name="shelves_sauces">
-    <input type="number" placeholder="Dessert Packages" name="shelves_desserts">
-    <input type="number" placeholder="Tinned Food" name="shelves_tinned">
+    <label for="borough">Borough</label>
+    <input type="text" id="borough" name="borough">
 
-    <label title="Choose product categories">4. Select Product Categories (1 to 5)</label>
-    <select name="categories" id="categories" multiple>
+    <label for="city">City</label>
+    <input type="text" id="city" name="city" required>
+
+    <label for="shopName">Shop Name</label>
+    <input type="text" id="shopName" name="shopName" required>
+
+    <label for="shopSize">Shop Size (Small/Medium/Large)</label>
+    <input type="text" id="shopSize" name="shopSize">
+
+    <label for="numCounters">Number of Counters</label>
+    <input type="number" id="numCounters" name="numCounters">
+
+    <label for="shelves_recipe">Shelves - Recipe Mixes</label>
+    <input type="number" id="shelves_recipe" name="shelves_recipe">
+
+    <label for="shelves_pickles">Shelves - Pickles</label>
+    <input type="number" id="shelves_pickles" name="shelves_pickles">
+
+    <label for="shelves_sauces">Shelves - Sauces</label>
+    <input type="number" id="shelves_sauces" name="shelves_sauces">
+
+    <label for="shelves_desserts">Shelves - Dessert Packages</label>
+    <input type="number" id="shelves_desserts" name="shelves_desserts">
+
+    <label for="shelves_tinned">Shelves - Tinned Food</label>
+    <input type="number" id="shelves_tinned" name="shelves_tinned">
+
+    <label for="categories">Select Product Categories (1 to 5)</label>
+    <select id="categories" name="categories" multiple title="Choose product categories">
       <option value="Recipe Mixes">Recipe Mixes</option>
       <option value="Pickles">Pickles</option>
       <option value="Sauces">Sauces</option>
@@ -87,7 +102,6 @@
 
     function addSelectedCategories() {
       const selected = Array.from(document.getElementById("categories").selectedOptions).map(opt => opt.value);
-
       selected.forEach(category => {
         if (!addedCategories.has(category)) {
           const section = document.createElement("div");
@@ -99,10 +113,10 @@
             const entry = document.createElement("div");
             entry.className = "brand-entry";
             entry.innerHTML = `
-              <label>${category} - Brand ${i}</label><br>
-              <input type="text" name="brand_${category}_${i}" placeholder="Brand Name">
-              <input type="text" name="weight_${category}_${i}" placeholder="Weight (e.g. 100g)">
-              <input type="number" step="0.01" name="price_${category}_${i}" placeholder="Price (e.g. 1.50)">
+              <label for="brand_${category}_${i}">${category} - Brand ${i}</label><br>
+              <input type="text" id="brand_${category}_${i}" name="brand_${category}_${i}" placeholder="Brand Name">
+              <input type="text" id="weight_${category}_${i}" name="weight_${category}_${i}" placeholder="Weight (e.g. 100g)">
+              <input type="number" step="0.01" id="price_${category}_${i}" name="price_${category}_${i}" placeholder="Price (e.g. 1.50)">
             `;
             section.appendChild(entry);
           }
@@ -121,9 +135,8 @@
       }
     }
 
-    document.getElementById("dataForm").addEventListener("submit", async function(e) {
+    document.getElementById("dataForm").addEventListener("submit", async function (e) {
       e.preventDefault();
-
       const form = e.target;
       const formData = new FormData(form);
 
@@ -155,18 +168,17 @@
             };
 
             try {
-              const response = await fetch("https://script.google.com/macros/s/AKfycbzr0bJFztHFuA532NSdV4QM0Az_aso8mnCjQuqXXMLhIAhDmvLB5oT1GYG7c9jFdQAL/exec", {
+              const response = await fetch("https://script.google.com/macros/library/d/1LtYJCnbqVWuHCF0Jso4BxL4Ml-Ti8PNMWgZeEzCbGPxywP5-b_mfb49T/5", {
                 method: "POST",
                 body: JSON.stringify(record),
-                headers: {
-                  "Content-Type": "application/json"
-                }
+                headers: { "Content-Type": "application/json" }
               });
+
               const result = await response.text();
-              console.log("📩 Server response:", result);
+              console.log("✅ Server response:", result);
               alert(result);
             } catch (err) {
-              console.error("Submission failed:", err);
+              console.error("❌ Submission failed:", err);
               alert("Failed to submit: " + err.message);
             }
           }
