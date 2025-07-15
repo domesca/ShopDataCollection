@@ -97,102 +97,68 @@
   </form>
 
   <script>
-    const brandSectionsDiv = document.getElementById("brandSections");
-    const addedCategories = new Set();
+document.getElementById("dataForm").addEventListener("submit", async function (e) {
+  e.preventDefault();
+  const form = e.target;
+  const formData = new FormData(form);
+  let submitted = false;
 
-    function addSelectedCategories() {
-      const selected = Array.from(document.getElementById("categories").selectedOptions).map(opt => opt.value);
-      selected.forEach(category => {
-        if (!addedCategories.has(category)) {
-          const section = document.createElement("div");
-          section.className = "category-block";
-          section.id = `section_${category}`;
-          section.innerHTML = `<h3>${category} <button type='button' onclick='removeCategory("${category}")'>Remove</button></h3>`;
+  for (const category of addedCategories) {
+    for (let i = 1; i <= 5; i++) {
+      const brand = formData.get(`brand_${category}_${i}`);
+      const weight = formData.get(`weight_${category}_${i}`);
+      const price = formData.get(`price_${category}_${i}`);
 
-          for (let i = 1; i <= 5; i++) {
-            const entry = document.createElement("div");
-            entry.className = "brand-entry";
-            entry.innerHTML = `
-              <label for="brand_${category}_${i}">${category} - Brand ${i}</label><br>
-              <input type="text" id="brand_${category}_${i}" name="brand_${category}_${i}" placeholder="Brand Name">
-              <input type="text" id="weight_${category}_${i}" name="weight_${category}_${i}" placeholder="Weight (e.g. 100g)">
-              <input type="number" step="0.01" id="price_${category}_${i}" name="price_${category}_${i}" placeholder="Price (e.g. 1.50)">
-            `;
-            section.appendChild(entry);
-          }
-
-          brandSectionsDiv.appendChild(section);
-          addedCategories.add(category);
+      if (brand && weight && price) {
+        if (isNaN(price) || Number(price) < 0) {
+          alert(`Price must be a valid number for ${category} - Brand ${i}`);
+          return;
         }
-      });
-    }
 
-    function removeCategory(category) {
-      const section = document.getElementById(`section_${category}`);
-      if (section) {
-        section.remove();
-        addedCategories.delete(category);
+        const record = {
+          collector: formData.get("collectorName"),
+          postcode: formData.get("postcode"),
+          lane: formData.get("lane"),
+          borough: formData.get("borough"),
+          city: formData.get("city"),
+          shopName: formData.get("shopName"),
+          shopSize: formData.get("shopSize"),
+          counters: formData.get("numCounters"),
+          category,
+          brand,
+          weight,
+          price
+        };
+
+        try {
+          await fetch("https://script.google.com/macros/s/AKfycbyxXk4xXkALOhbE3Y120-3zMWbCZuebbulwm7CF8OSV3CIMoQ7VAEusTT-211jQe0/exec", {
+            method: "POST",
+            body: JSON.stringify(record),
+            headers: {
+              "Content-Type": "application/json"
+            },
+            mode: "no-cors"
+          });
+
+          submitted = true;
+        } catch (err) {
+          console.error("❌ Submission failed:", err);
+          alert("Failed to submit: " + err.message);
+          return;
+        }
       }
     }
+  }
 
-    document.getElementById("dataForm").addEventListener("submit", async function (e) {
-      e.preventDefault();
-      const form = e.target;
-      const formData = new FormData(form);
-
-      for (const category of addedCategories) {
-        for (let i = 1; i <= 5; i++) {
-          const brand = formData.get(`brand_${category}_${i}`);
-          const weight = formData.get(`weight_${category}_${i}`);
-          const price = formData.get(`price_${category}_${i}`);
-
-          if (brand && weight && price) {
-            if (isNaN(price) || Number(price) < 0) {
-              alert(`Price must be a valid number for ${category} - Brand ${i}`);
-              return;
-            }
-
-            const record = {
-              collector: formData.get("collectorName"),
-              postcode: formData.get("postcode"),
-              lane: formData.get("lane"),
-              borough: formData.get("borough"),
-              city: formData.get("city"),
-              shopName: formData.get("shopName"),
-              shopSize: formData.get("shopSize"),
-              counters: formData.get("numCounters"),
-              category,
-              brand,
-              weight,
-              price
-            };
-
-            try {
-             const response = await fetch("https://script.google.com/macros/s/AKfycbxyXk4xXKaLOHbEY3Yl20-3zMvWbCZuebbuWvm7CF0SOV3CIMoQ7VAEusTT-2l1jQeQ/exec", {
-  method: "POST",
-  body: JSON.stringify(record),
-  headers: {
-    "Content-Type": "application/json"
-  },
-  mode: "no-cors"
+  if (submitted) {
+    alert("Submitted successfully!");
+    form.reset();
+    brandSectionsDiv.innerHTML = "";
+    addedCategories.clear();
+  } else {
+    alert("No valid product entries found.");
+  }
 });
-
-              const result = await response.text();
-              console.log("✅ Server response:", result);
-              alert(result);
-            } catch (err) {
-              console.error("❌ Submission failed:", err);
-              alert("Failed to submit: " + err.message);
-            }
-          }
-        }
-      }
-
-      alert("Submitted successfully!");
-      form.reset();
-      brandSectionsDiv.innerHTML = "";
-      addedCategories.clear();
-    });
   </script>
 </body>
 </html>
