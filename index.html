@@ -168,11 +168,14 @@
             };
 
             try {
-              const response = await fetch("https://script.google.com/macros/s/AKfycbxyXk4xXKaLOHbEY3Yl20-3zMvWbCZuebbuWvm7CF0SOV3CIMoQ7VAEusTT-2l1jQeQ/exec", {
-                method: "POST",
-                body: JSON.stringify(record),
-                headers: { "Content-Type": "application/json" }
-              });
+             const response = await fetch("https://script.google.com/macros/s/AKfycbxyXk4xXKaLOHbEY3Yl20-3zMvWbCZuebbuWvm7CF0SOV3CIMoQ7VAEusTT-2l1jQeQ/exec", {
+  method: "POST",
+  body: JSON.stringify(record),
+  headers: {
+    "Content-Type": "application/json"
+  },
+  mode: "no-cors"
+});
 
               const result = await response.text();
               console.log("✅ Server response:", result);
