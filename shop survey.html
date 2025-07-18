@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Shop Data Collection</title>
+  <link rel="stylesheet" href="CSS shop.css">
+</head>
+<body>
+
+  <!-- Area Information -->
+  <section>
+    <h2>Area Information</h2>
+    <div class="form-row"><label>1. Borough</label><input id="borough" type="text"></div>
+    <div class="form-row"><label>2. Post Code</label><input id="postcode1" type="text"></div>
+    <div class="form-row"><label>3. Lane</label><input id="lane" type="text"></div>
+    <div class="form-row"><label>4. Post Code</label><input id="postcode2" type="text"></div>
+    <div class="form-row"><label>5. Shop number</label><input id="shop-number" type="text"></div>
+    <div class="button-row">
+      <button onclick="saveArea()">Save</button>
+      <button onclick="clearArea()">Delete</button>
+    </div>
+  </section>
+
+  <!-- Shop Information -->
+<section>
+  <h2>Shop Information</h2>
+  <div class="form-row"><label>6. Shop name</label><input id="shop-name" type="text"></div>
+  <div class="form-row"><label>7. No of counters</label><input id="counter-number" type="text"></div>
+  <div class="form-row">
+    <label>8. No of shelves</label>
+    <select>
+      <option>Select category</option>
+      <option>Dessert Packages</option>
+      <option>Pickles</option>
+      <option>Sauces</option>
+      <option>Tinned Food</option>
+      <option>Vermicelli</option>
+    </select>
+    <input type="text" placeholder="Qty">
+  </div>
+  <div id="extra-categories"></div>
+  <div class="button-row">
+    <button onclick="addShopCategory()">Add Category</button>
+    <button onclick="saveShop()">Save</button>
+    <button onclick="clearShop()">Delete</button>
+  </div>
+</section>
+
+
+  <!-- Brand Information -->
+  <section>
+  <h2>Brand Information</h2>
+  <div id="brand-container">
+    <div class="form-row">
+      <select>
+        <option>Select category</option>
+        <option>Dessert Packages</option>
+        <option>Pickles</option>
+        <option>Sauces</option>
+        <option>Tinned Food</option>
+        <option>Vermicelli</option>
+      </select>
+      <input type="text" placeholder="Brand name">
+      <input type="text" placeholder="Size">
+      <input type="text" placeholder="Price">
+    </div>
+  </div>
+  <div class="button-row">
+    <button onclick="addBrandEntry()">Add Category</button>
+    <button onclick="saveBrand()">Save</button>
+    <button onclick="clearBrand()">Delete</button>
+  </div>
+</section>
+  <!-- Purchase Price -->
+ <section>
+  <h2>Purchase Price</h2>
+  <div id="purchase-container">
+    <div class="form-row">
+      <select>
+        <option>Select category</option>
+        <option>Dessert Packages</option>
+        <option>Pickles</option>
+        <option>Sauces</option>
+        <option>Tinned Food</option>
+        <option>Vermicelli</option>
+      </select>
+      <select class="brand-select">
+        <option>Select Brand</option>
+      </select>
+      <input type="text" placeholder="Size">
+      <input type="text" placeholder="Purchase Price">
+    </div>
+  </div>
+  <div class="button-row">
+    <button onclick="addPurchaseEntry()">Add Category</button>
+    <button onclick="savePurchase()">Save</button>
+    <button onclick="clearPurchase()">Delete</button>
+  </div>
+</section>
+    <!-- Special Offer-->
+  <section>
+  <h2>Special Offer</h2>
+  <div id="special-offer-container">
+    <div class="form-row">
+      <select class="brand-select">
+        <option>Select Brand</option>
+      </select>
+      <input type="text" placeholder="Value/ctn">
+      <input type="text" placeholder="Condition">
+    </div>
+  </div>
+  <div class="button-row">
+    <button onclick="addSpecialOfferEntry()">Add Brand</button>
+    <button onclick="saveSpecialOffer()">Save</button>
+    <button onclick="clearSpecialOffer()">Delete</button>
+  </div>
+</section>
+
+ <!-- Paymnet Terms-->
+<section>
+  <h2>Payment Terms</h2>
+  <div id="payment-terms-container">
+    <div class="form-row">
+      <select class="brand-select">
+        <option>Select Brand</option>
+      </select>
+      <input type="text" placeholder="Select Category (Optional)">
+      <input type="text" placeholder="Payment Time">
+      <input type="text" placeholder="Payment Method">
+    </div>
+  </div>
+  <div class="button-row">
+    <button onclick="addPaymentTermsEntry()">Add Brand</button>
+    <button onclick="savePaymentTerms()">Save</button>
+    <button onclick="clearPaymentTerms()">Delete</button>
+  </div>
+</section>
+
+<!-- Average Sales-->
+<section>
+  <h2>Average Sales</h2>
+  <div id="average-sales-container">
+    <div class="form-row">
+      <select>
+        <option>Select category</option>
+        <option>Dessert Packages</option>
+        <option>Pickles</option>
+        <option>Sauces</option>
+        <option>Tinned Food</option>
+        <option>Vermicelli</option>
+      </select>
+      <select class="brand-select">
+        <option>Select Brand (Optional)</option>
+      </select>
+      <input type="text" placeholder="Indicators">
+      <input type="text" placeholder="Value">
+    </div>
+  </div>
+  <div class="button-row">
+    <button onclick="addAverageSalesEntry()">Add Category</button>
+    <button onclick="saveAverageSales()">Save</button>
+    <button onclick="clearAverageSales()">Delete</button>
+  </div>
+</section>
+
+<!-- Buying Sources-->
+<section>
+  <h2>Buying Sources</h2>
+  <div id="buying-sources-container">
+    <div class="form-row">
+      <select class="brand-select">
+        <option>Select Brand</option>
+      </select>
+      <input type="text" placeholder="Buying Source">
+    </div>
+  </div>
+  <div class="button-row">
+    <button onclick="addBuyingSourcesEntry()">Add Brand</button>
+    <button onclick="saveBuyingSources()">Save</button>
+    <button onclick="clearBuyingSources()">Delete</button>
+  </div>
+</section>
+
+<!-- Distribution Frequency-->
+<section>
+  <h2>Distribution Frequency</h2>
+  <div id="distribution-frequency-container">
+    <div class="form-row">
+      <select>
+        <option>Select category</option>
+        <option>Dessert Packages</option>
+        <option>Pickles</option>
+        <option>Sauces</option>
+        <option>Tinned Food</option>
+        <option>Vermicelli</option>
+      </select>
+      <input type="text" placeholder="Frequency">
+      <input type="text" placeholder="Per month /per week">
+    </div>
+  </div>
+  <div class="button-row">
+    <button onclick="addDistributionFrequencyEntry()">Add Category</button>
+    <button onclick="saveDistributionFrequency()">Save</button>
+    <button onclick="clearDistributionFrequency()">Delete</button>
+  </div>
+</section>
+
+<!-- Delivery Location-->
+<section>
+  <h2>Delivery Location</h2>
+  <div id="delivery-location-container">
+    <div class="form-row">
+      <input type="text" placeholder="Location">
+    </div>
+  </div>
+  <div class="button-row">
+    <button onclick="saveDeliveryLocation()">Save</button>
+    <button onclick="clearDeliveryLocation()">Delete</button>
+    <button onclick="addDeliveryLocationEntry()">Add Location</button>
+  </div>
+</section>
+
+<!-- Orders Online-->
+<section>
+  <h2>Do they place orders online</h2>
+  <div class="form-row">
+    <input type="text" placeholder="YES/NO">
+  </div>
+  <div class="button-row">
+    <button onclick="alert('Place orders info saved ✅')">Save</button>
+    <button onclick="alert('Place orders info deleted')">Delete</button>
+  </div>
+</section>
+
+<!-- Sell Online-->
+<section>
+  <h2>Do they sell online</h2>
+  <div class="form-row">
+    <input type="text" placeholder="YES/NO">
+  </div>
+  <div class="button-row">
+    <button onclick="alert('Sell online info saved ✅')">Save</button>
+    <button onclick="alert('Sell online info deleted')">Delete</button>
+  </div>
+</section>
+
+<!-- Submit Online-->
+<section>
+  <div class="button-row" style="text-align: center">
+    <button onclick="submitForm()">Submit</button>
+  </div>
+</section>
+
+
+
+  <script>
+    function addShopCategory() {
+  const container = document.getElementById("extra-categories");
+  const div = document.createElement("div");
+  div.className = "form-row";
+  div.innerHTML = `
+    <select>
+      <option>Select category</option>
+      <option>Dessert Packages</option>
+      <option>Pickles</option>
+      <option>Sauces</option>
+      <option>Tinned Food</option>
+      <option>Vermicelli</option>
+    </select>
+    <input type="text" placeholder="Qty">
+  `;
+  container.appendChild(div);
+}
+
+function addBrandEntry() {
+  const container = document.getElementById("brand-container");
+  const div = document.createElement("div");
+  div.className = "form-row";
+  div.innerHTML = `
+    <select>
+      <option>Select category</option>
+      <option>Dessert Packages</option>
+      <option>Pickles</option>
+      <option>Sauces</option>
+      <option>Tinned Food</option>
+      <option>Vermicelli</option>
+    </select>
+    <input type="text" placeholder="Brand name">
+    <input type="text" placeholder="Size">
+    <input type="text" placeholder="Price">
+  `;
+  container.appendChild(div);
+  updateBrandOptions();
+}
+
+function addPurchaseEntry() {
+  const container = document.getElementById("purchase-container");
+  const div = document.createElement("div");
+  div.className = "form-row";
+  div.innerHTML = `
+    <select>
+      <option>Select category</option>
+      <option>Dessert Packages</option>
+      <option>Pickles</option>
+      <option>Sauces</option>
+      <option>Tinned Food</option>
+      <option>Vermicelli</option>
+    </select>
+    <select class="brand-select">
+      <option>Select Brand</option>
+    </select>
+    <input type="text" placeholder="Size">
+    <input type="text" placeholder="Purchase Price">
+  `;
+  container.appendChild(div);
+  updateBrandOptions();
+}
+
+function addSpecialOfferEntry() {
+  const container = document.getElementById("special-offer-container");
+  const div = document.createElement("div");
+  div.className = "form-row";
+  div.innerHTML = `
+    <select class="brand-select">
+      <option>Select Brand</option>
+    </select>
+    <input type="text" placeholder="Value/ctn">
+    <input type="text" placeholder="Condition">
+  `;
+  container.appendChild(div);
+  updateBrandOptions();
+}
+
+function updateBrandOptions() {
+  const brandInputs = document.querySelectorAll("#brand-container input[placeholder='Brand name']");
+  const brandNames = Array.from(brandInputs).map(input => input.value.trim()).filter(name => name);
+  const brandSelects = document.querySelectorAll(".brand-select");
+
+  brandSelects.forEach(select => {
+    const current = select.value;
+    select.innerHTML = '<option>Select Brand</option>';
+    brandNames.forEach(name => {
+      const opt = document.createElement("option");
+      opt.value = name;
+      opt.textContent = name;
+      select.appendChild(opt);
+    });
+    select.value = current;
+  });
+}
+
+function saveShop() {
+  const inputs = document.querySelectorAll("#shop-container input");
+  const locations = Array.from(inputs).map(input => input.value.trim()).filter(val => val !== "");
+
+  const data = {
+    sheet: "ShopInformation", // The name of the sheet (optional, if your Google Script uses it)
+    locations: locations
+  };
+
+  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: { "Content-Type": "application/json" }
+  })
+  .then(res => res.text())
+  .then(msg => alert(msg))
+  .catch(err => alert("Error: " + err));
+}
+function clearShop() {
+  document.getElementById("shop-container").innerHTML = "";
+}
+
+function saveBrand() {
+ const inputs = document.querySelectorAll("#brand-container input");
+  const locations = Array.from(inputs).map(input => input.value.trim()).filter(val => val !== "");
+
+  const data = {
+    sheet: "BrandInformation", // The name of the sheet (optional, if your Google Script uses it)
+    locations: locations
+  };
+
+  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: { "Content-Type": "application/json" }
+  })
+  .then(res => res.text())
+  .then(msg => alert(msg))
+  .catch(err => alert("Error: " + err));
+}
+function clearBrand() {
+  document.getElementById("delivery-location-container").innerHTML = "";
+}
+
+function clearBrand() {
+  document.getElementById("brand-container").innerHTML = "";
+  updateBrandOptions();
+  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: { "Content-Type": "application/json" }
+  })
+  .then(res => res.text())
+  .then(msg => alert(msg));
+}
+
+function savePurchase() {
+  const inputs = document.querySelectorAll("#purchase-container input");
+  const locations = Array.from(inputs).map(input => input.value.trim()).filter(val => val !== "");
+
+  const data = {
+    sheet: "PurchasePrice", // The name of the sheet (optional, if your Google Script uses it)
+    locations: locations
+  };
+
+  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: { "Content-Type": "application/json" }
+  })
+  .then(res => res.text())
+  .then(msg => alert(msg))
+  .catch(err => alert("Error: " + err));
+}
+function clearPurchase() {
+  document.getElementById("purchase-container").innerHTML = "";
+}
+
+function saveSpecialOffer() {
+  const inputs = document.querySelectorAll("special-offer-container input");
+  const locations = Array.from(inputs).map(input => input.value.trim()).filter(val => val !== "");
+
+  const data = {
+    sheet: "DeliveryLocation", // The name of the sheet (optional, if your Google Script uses it)
+    locations: locations
+  };
+
+  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: { "Content-Type": "application/json" }
+  })
+  .then(res => res.text())
+  .then(msg => alert(msg))
+  .catch(err => alert("Error: " + err));
+}
+function clearSpecialOffer() {
+  document.getElementById("special-offer-container").innerHTML = "";
+}
+
+
+function addPaymentTermsEntry() {
+  const container = document.getElementById("payment-terms-container");
+  const div = document.createElement("div");
+  div.className = "form-row";
+  div.innerHTML = `
+    <select class="brand-select">
+      <option>Select Brand</option>
+    </select>
+    <input type="text" placeholder="Select Category (Optional)">
+    <input type="text" placeholder="Payment Time">
+    <input type="text" placeholder="Payment Method">
+  `;
+  container.appendChild(div);
+  updateBrandOptions();
+}
+
+function savePaymentTerms() {
+ const inputs = document.querySelectorAll("payment-terms-container input");
+  const locations = Array.from(inputs).map(input => input.value.trim()).filter(val => val !== "");
+
+  const data = {
+    sheet: "PaymentTerms", // The name of the sheet (optional, if your Google Script uses it)
+    locations: locations
+  };
+
+  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: { "Content-Type": "application/json" }
+  })
+  .then(res => res.text())
+  .then(msg => alert(msg))
+  .catch(err => alert("Error: " + err));
+}
+function clearPaymentTerms() {
+  document.getElementById("payment-terms-container").innerHTML = "";
+}
+
+function addPaymentTermsEntry() {
+  const container = document.getElementById("payment-terms-container");
+  const div = document.createElement("div");
+  div.className = "form-row";
+  div.innerHTML = `
+    <select class="brand-select">
+      <option>Select Brand</option>
+    </select>
+    <input type="text" placeholder="Select Category (Optional)">
+    <input type="text" placeholder="Payment Time">
+    <input type="text" placeholder="Payment Method">
+  `;
+  container.appendChild(div);
+  updateBrandOptions();
+}
+
+function savePaymentTerms() {
+ const inputs = document.querySelectorAll("payment-terms-container input");
+  const locations = Array.from(inputs).map(input => input.value.trim()).filter(val => val !== "");
+
+  const data = {
+    sheet: "PaymentTerms", // The name of the sheet (optional, if your Google Script uses it)
+    locations: locations
+  };
+
+  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: { "Content-Type": "application/json" }
+  })
+  .then(res => res.text())
+  .then(msg => alert(msg))
+  .catch(err => alert("Error: " + err));
+}
+function clearSpecialOffer() {
+  document.getElementById("payment-terms-container").innerHTML = "";
+}
+
+
+function addAverageSalesEntry() {
+  const container = document.getElementById("average-sales-container");
+  const div = document.createElement("div");
+  div.className = "form-row";
+  div.innerHTML = `
+    <select>
+      <option>Select category</option>
+      <option>Dessert Packages</option>
+      <option>Pickles</option>
+      <option>Sauces</option>
+      <option>Tinned Food</option>
+      <option>Vermicelli</option>
+    </select>
+    <select class="brand-select">
+      <option>Select Brand (Optional)</option>
+    </select>
+    <input type="text" placeholder="Indicators">
+    <input type="text" placeholder="Value">
+  `;
+  container.appendChild(div);
+  updateBrandOptions();
+}
+
+function saveAverageSales() {
+  const inputs = document.querySelectorAll("#average-sales-container input");
+  const locations = Array.from(inputs).map(input => input.value.trim()).filter(val => val !== "");
+
+  const data = {
+    sheet: "AverageSales", // The name of the sheet (optional, if your Google Script uses it)
+    locations: locations
+  };
+
+  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: { "Content-Type": "application/json" }
+  })
+  .then(res => res.text())
+  .then(msg => alert(msg))
+  .catch(err => alert("Error: " + err));
+}
+function clearAverageSales() {
+  document.getElementById("average-sales-container").innerHTML = "";
+}
+
+function addBuyingSourcesEntry() {
+  const container = document.getElementById("buying-sources-container");
+  const div = document.createElement("div");
+  div.className = "form-row";
+  div.innerHTML = `
+    <select class="brand-select">
+      <option>Select Brand</option>
+    </select>
+    <input type="text" placeholder="Buying Source">
+  `;
+  container.appendChild(div);
+  updateBrandOptions();
+}
+function saveBuyingSources() {
+  const inputs = document.querySelectorAll("#buying-sources-container input");
+  const locations = Array.from(inputs).map(input => input.value.trim()).filter(val => val !== "");
+
+  const data = {
+    sheet: "BuyingSources", // The name of the sheet (optional, if your Google Script uses it)
+    locations: locations
+  };
+
+  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: { "Content-Type": "application/json" }
+  })
+  .then(res => res.text())
+  .then(msg => alert(msg))
+  .catch(err => alert("Error: " + err));
+}
+function clearBuyingSources() {
+  document.getElementById("buying-sources-container").innerHTML = "";
+}
+
+function addDistributionFrequencyEntry() {
+  const container = document.getElementById("distribution-frequency-container");
+  const div = document.createElement("div");
+  div.className = "form-row";
+  div.innerHTML = `
+    <select>
+      <option>Select category</option>
+      <option>Dessert Packages</option>
+      <option>Pickles</option>
+      <option>Sauces</option>
+      <option>Tinned Food</option>
+      <option>Vermicelli</option>
+    </select>
+    <input type="text" placeholder="Frequency">
+    <input type="text" placeholder="Per month /per week">
+  `;
+  container.appendChild(div);
+}
+function saveDistributionFrequency() {
+  const inputs = document.querySelectorAll("#distribution-frequency-container input");
+  const locations = Array.from(inputs).map(input => input.value.trim()).filter(val => val !== "");
+
+  const data = {
+    sheet: "DistributionFrequency", // The name of the sheet (optional, if your Google Script uses it)
+    locations: locations
+  };
+
+  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: { "Content-Type": "application/json" }
+  })
+  .then(res => res.text())
+  .then(msg => alert(msg))
+  .catch(err => alert("Error: " + err));
+}
+function clearDistributionFrequency() {
+  document.getElementById("distribution-frequency-container").innerHTML = "";
+}
+
+function addDeliveryLocationEntry() {
+  const container = document.getElementById("delivery-location-container");
+  const div = document.createElement("div");
+  div.className = "form-row";
+  div.innerHTML = `<input type="text" placeholder="Location">`;
+  container.appendChild(div);
+}
+function saveDeliveryLocation() {
+   const inputs = document.querySelectorAll("#delivery-location-container input");
+  const locations = Array.from(inputs).map(input => input.value.trim()).filter(val => val !== "");
+
+  const data = {
+    sheet: "DeliveryLocation", // The name of the sheet (optional, if your Google Script uses it)
+    locations: locations
+  };
+
+  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: { "Content-Type": "application/json" }
+  })
+  .then(res => res.text())
+  .then(msg => alert(msg))
+  .catch(err => alert("Error: " + err));
+}
+function clearDeliveryLocation() {
+  document.getElementById("delivery-location-container").innerHTML = "";
+}
+
+function submitForm() {
+  alert("Submitting all form data...");
+  // You will implement the function to gather all form data and send to Google Sheets.
+}
+
+  </script>
+
+</body>
+</html>

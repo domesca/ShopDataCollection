@@ -1,0 +1,32 @@
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    section {
+      border: 2px solid #0b2545;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    h2 {
+      text-align: center;
+    }
+    .form-row {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+      gap: 10px;
+    }
+    .form-row label {
+      width: 200px;
+    }
+    input, select, button {
+      padding: 6px;
+      font-size: 1em;
+    }
+    .button-row {
+      text-align: center;
+      margin-top: 10px;
+    }
+    .button-row button {
+      margin: 0 5px;
+    }
