@@ -69,13 +69,21 @@ function saveArea() {
   };
 
   fetch("https://script.google.com/macros/s/AKfycbwhKrMo7U6D8jg3pNNw_Qz1HtACdpgUPxx-GKh1J8GUkMVFD27edOZ3xTDCifScyF0y/exec", {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" }
+     method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    section: "area",
+    city: "London",
+    town: "Ealing",
+    borough: "West",
+    postcode1: "W5",
+    lane: "Some Lane",
+    shopNumber: "12A"
   })
-    .then(res => res.text())
-    .then(msg => alert(msg))
-    .catch(err => alert("Error: " + err));
+})
+.then(res => res.text())
+.then(alert)
+.catch(err => alert("❌ " + err));
 }
 
 function clearArea() {
