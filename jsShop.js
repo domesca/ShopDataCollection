@@ -150,36 +150,40 @@ function addBrandEntry() {
   );
 }
 function saveBrand() {
-  const brandRows = document.querySelectorAll("#brand-container .brand-row");
+  const container = document.getElementById("brand-container");
+  const rows = container.querySelectorAll(".brand-row");
 
-  brandRows.forEach(row => {
-    const select = row.querySelector("select");
-    const brandName = row.querySelector("input[placeholder='Brand name']");
-    const size = row.querySelector("input[placeholder='Size']");
-    const price = row.querySelector("input[placeholder='Price']");
+  const data = [];
 
-    const data = {
+  rows.forEach(row => {
+    const category = row.querySelector("select").value.trim();
+    const brandName = row.querySelectorAll("input")[0].value.trim();
+    const size = row.querySelectorAll("input")[1].value.trim();
+    const price = row.querySelectorAll("input")[2].value.trim();
+
+    data.push({
       section: "brand",
-      category: select.value.trim(),
-      brandName: brandName.value.trim(),
-      size: size.value.trim(),
-      price: price.value.trim(),
-      shopName: document.getElementById("shop-name")?.value.trim() || ""
-    };
-
-    fetch("https://76952caa-0470-47ca-ad9a-601e2f774c03-00-2zy36chsul1cv.janeway.replit.dev/submit", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    })
-    .then(res => res.text())
-    .then(result => {
-      console.log("✅ Brand saved:", result);
-    })
-    .catch(err => {
-      alert("❌ Error saving brand: " + err);
+      category,
+      brandName,
+      size,
+      price
     });
   });
+
+  fetch("https://76952caa-0470-47ca-ad9a-601e2f774c03-00-2zy36chsul1cv.janeway.replit.dev/submit", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)  // sending all rows at once
+  })
+  .then(res => res.text())
+  .then(response => {
+    if (response.includes("Error")) {
+      console.error("Server error:", response);
+    } else {
+      alert("✅ Brand information submitted successfully!");
+    }
+  })
+  .catch(err => alert("❌ " + err));
 }
 function addPurchaseEntry() {
   addEntry("purchase-container", `
