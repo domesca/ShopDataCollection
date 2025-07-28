@@ -105,7 +105,30 @@ function addShopCategory() {
     <input type="text" placeholder="Qty">`
   );
 }
+function saveShop() {
+  const data = {
+    section: "shop",
+    shopName: document.getElementById("shop-name").value.trim(),
+    counters: document.getElementById("counters").value.trim(),
+    shelves: []
+  };
 
+  const shelfRows = document.querySelectorAll("#shelf-container .form-row");
+  shelfRows.forEach(row => {
+    const category = row.querySelector("select").value;
+    const qty = row.querySelector("input").value.trim();
+    data.shelves.push({ category, qty });
+  });
+
+  fetch("https://76952caa-0470-47ca-ad9a-601e2f774c03-00-2zy36chsul1cv.janeway.replit.dev/submit", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  })
+    .then(res => res.text())
+    .then(alert)
+    .catch(err => alert("❌ " + err));
+}
 function addBrandEntry() {
   addEntry("brand-container", `
     <select>
