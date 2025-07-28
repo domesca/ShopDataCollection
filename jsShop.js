@@ -159,24 +159,26 @@ function addBrandEntry() {
   `);
 }
 
-function saveBrand() {
-  const container = document.getElementById("brand-container");
-  const rows = container.querySelectorAll(".brand-row");
+function savePurchase() {
+  const container = document.getElementById("purchase-container");
+  const rows = container.querySelectorAll(".form-row");
+
   const data = [];
 
   rows.forEach(row => {
-    const category = row.querySelector("select").value.trim();
-    const brandName = row.querySelectorAll("input")[0].value.trim();
-    const size = row.querySelectorAll("input")[1].value.trim();
-    const price = row.querySelectorAll("input")[2].value.trim();
+    const selects = row.querySelectorAll("select");
+    const category = selects[0]?.value.trim();
+    const brand = selects[1]?.value.trim();
+    const size = row.querySelector("input[placeholder='Size']").value.trim();
+    const price = row.querySelector("input[placeholder='Purchase Price']").value.trim();
 
-    if (category && brandName && size && price) {
+    if (category && brand && size && price) {
       data.push({
-        section: "brand",
+        section: "purchase",
         category,
-        brandName,
+        brand,
         size,
-        price
+        purchasePrice: price
       });
     }
   });
@@ -191,11 +193,12 @@ function saveBrand() {
     if (response.includes("Error")) {
       console.error("Server error:", response);
     } else {
-      alert("✅ Brand information submitted successfully!");
+      alert("✅ Purchase data submitted successfully!");
     }
   })
   .catch(err => alert("❌ " + err));
 }
+
 
 function clearBrand() {
   clearContainer("brand-container");
