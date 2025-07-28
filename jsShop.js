@@ -150,22 +150,21 @@ function addBrandEntry() {
   );
 }
 function saveBrand() {
-  const container = document.getElementById("brand-container");
-  const rows = container.querySelectorAll(".form-row");
+  const brandRows = document.querySelectorAll("#brand-container .brand-row");
 
-  rows.forEach(row => {
+  brandRows.forEach(row => {
     const select = row.querySelector("select");
-    const brandInput = row.querySelector('input[placeholder="Brand name"]');
-    const sizeInput = row.querySelector('input[placeholder="Size"]');
-    const priceInput = row.querySelector('input[placeholder="Price"]');
+    const brandName = row.querySelector("input[placeholder='Brand name']");
+    const size = row.querySelector("input[placeholder='Size']");
+    const price = row.querySelector("input[placeholder='Price']");
 
     const data = {
       section: "brand",
-      shopName: document.getElementById("shop-name")?.value.trim() || "", // optional
-      category: select.value,
-      brandName: brandInput.value.trim(),
-      size: sizeInput.value.trim(),
-      price: priceInput.value.trim()
+      category: select.value.trim(),
+      brandName: brandName.value.trim(),
+      size: size.value.trim(),
+      price: price.value.trim(),
+      shopName: document.getElementById("shop-name")?.value.trim() || ""
     };
 
     fetch("https://76952caa-0470-47ca-ad9a-601e2f774c03-00-2zy36chsul1cv.janeway.replit.dev/submit", {
@@ -174,17 +173,14 @@ function saveBrand() {
       body: JSON.stringify(data)
     })
     .then(res => res.text())
-    .then(response => {
-      console.log("✅ Brand data saved:", response);
-      alert("✅ Brand data submitted successfully!");
+    .then(result => {
+      console.log("✅ Brand saved:", result);
     })
     .catch(err => {
-      console.error("❌ Error saving brand data:", err);
-      alert("❌ Error submitting brand data: " + err.message);
+      alert("❌ Error saving brand: " + err);
     });
   });
 }
-
 function addPurchaseEntry() {
   addEntry("purchase-container", `
     <select>
