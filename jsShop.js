@@ -6,7 +6,7 @@ function getInputValues(selector) {
 
 function sendToSheet(sheetName, values) {
   const data = { sheet: sheetName, locations: values };
-  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbxF5JoO5KntmWqLhWrKYuAijxjjii0fE5EksRInjlkkpQ_Yuz49joUKldQ4Uj3jFqP3/exec", {
     method: "POST",
     body: JSON.stringify(data),
     headers: { "Content-Type": "application/json" }
