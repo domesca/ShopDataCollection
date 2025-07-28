@@ -68,8 +68,8 @@ function saveArea() {
     shopNumber: document.getElementById("shop-number").value.trim()
   };
 
-  fetch("https://script.google.com/macros/s/AKfycbwhKrMo7U6D8jg3pNNw_Qz1HtACdpgUPxx-GKh1J8GUkMVFD27edOZ3xTDCifScyF0y/exec", {
-     method: "POST",
+ fetch("https://replit.com/@domeseminario90/FewMonthlyVoxels#package.json", {
+  method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
     section: "area",
