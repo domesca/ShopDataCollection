@@ -1,83 +1,38 @@
- function addShopCategory() {
-  const container = document.getElementById("extra-categories");
-  const div = document.createElement("div");
-  div.className = "form-row";
-  div.innerHTML = `
-    <select>
-      <option>Select category</option>
-      <option>Dessert Packages</option>
-      <option>Pickles</option>
-      <option>Sauces</option>
-      <option>Tinned Food</option>
-      <option>Vermicelli</option>
-    </select>
-    <input type="text" placeholder="Qty">
-  `;
-  container.appendChild(div);
+  // --- Utility Functions ---
+function getInputValues(selector) {
+  const inputs = document.querySelectorAll(selector);
+  return Array.from(inputs).map(i => i.value.trim()).filter(val => val !== "");
 }
 
-function addBrandEntry() {
-  const container = document.getElementById("brand-container");
-  const div = document.createElement("div");
-  div.className = "form-row";
-  div.innerHTML = `
-    <select>
-      <option>Select category</option>
-      <option>Dessert Packages</option>
-      <option>Pickles</option>
-      <option>Sauces</option>
-      <option>Tinned Food</option>
-      <option>Vermicelli</option>
-    </select>
-    <input type="text" placeholder="Brand name">
-    <input type="text" placeholder="Size">
-    <input type="text" placeholder="Price">
-  `;
-  container.appendChild(div);
-  updateBrandOptions();
+function sendToSheet(sheetName, values) {
+  const data = { sheet: sheetName, locations: values };
+  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: { "Content-Type": "application/json" }
+  })
+    .then(res => res.text())
+    .then(msg => alert(msg))
+    .catch(err => alert("Error: " + err));
 }
 
-function addPurchaseEntry() {
-  const container = document.getElementById("purchase-container");
-  const div = document.createElement("div");
-  div.className = "form-row";
-  div.innerHTML = `
-    <select>
-      <option>Select category</option>
-      <option>Dessert Packages</option>
-      <option>Pickles</option>
-      <option>Sauces</option>
-      <option>Tinned Food</option>
-      <option>Vermicelli</option>
-    </select>
-    <select class="brand-select">
-      <option>Select Brand</option>
-    </select>
-    <input type="text" placeholder="Size">
-    <input type="text" placeholder="Purchase Price">
-  `;
-  container.appendChild(div);
-  updateBrandOptions();
+function clearContainer(containerId) {
+  document.getElementById(containerId).innerHTML = "";
 }
 
-function addSpecialOfferEntry() {
-  const container = document.getElementById("special-offer-container");
+// --- Entry Adders ---
+function addEntry(containerId, html) {
+  const container = document.getElementById(containerId);
   const div = document.createElement("div");
   div.className = "form-row";
-  div.innerHTML = `
-    <select class="brand-select">
-      <option>Select Brand</option>
-    </select>
-    <input type="text" placeholder="Value/ctn">
-    <input type="text" placeholder="Condition">
-  `;
+  div.innerHTML = html;
   container.appendChild(div);
   updateBrandOptions();
 }
 
 function updateBrandOptions() {
   const brandInputs = document.querySelectorAll("#brand-container input[placeholder='Brand name']");
-  const brandNames = Array.from(brandInputs).map(input => input.value.trim()).filter(name => name);
+  const brandNames = Array.from(brandInputs).map(i => i.value.trim()).filter(Boolean);
   const brandSelects = document.querySelectorAll(".brand-select");
 
   brandSelects.forEach(select => {
@@ -93,189 +48,58 @@ function updateBrandOptions() {
   });
 }
 
-function saveShop() {
-  const inputs = document.querySelectorAll("#shop-container input");
-  const locations = Array.from(inputs).map(input => input.value.trim()).filter(val => val !== "");
-
-  const data = {
-    sheet: "ShopInformation", // The name of the sheet (optional, if your Google Script uses it)
-    locations: locations
-  };
-
-  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" }
-  })
-  .then(res => res.text())
-  .then(msg => alert(msg))
-  .catch(err => alert("Error: " + err));
-}
-function clearShop() {
-  document.getElementById("shop-container").innerHTML = "";
+// --- Toggle Logic ---
+function toggleOptions(checkbox) {
+  const optionsBox = checkbox.closest(".checkbox-group").querySelector(".options-box");
+  if (optionsBox) optionsBox.style.display = checkbox.checked ? "block" : "none";
 }
 
-function saveBrand() {
- const inputs = document.querySelectorAll("#brand-container input");
-  const locations = Array.from(inputs).map(input => input.value.trim()).filter(val => val !== "");
-
-  const data = {
-    sheet: "BrandInformation", // The name of the sheet (optional, if your Google Script uses it)
-    locations: locations
-  };
-
-  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" }
-  })
-  .then(res => res.text())
-  .then(msg => alert(msg))
-  .catch(err => alert("Error: " + err));
-}
-function clearBrand() {
-  document.getElementById("delivery-location-container").innerHTML = "";
+function toggleWarehouseInput(checkbox) {
+  const group = checkbox.closest(".warehouse-group");
+  if (group) {
+    const input = group.querySelector(".warehouse-location");
+    input.style.display = checkbox.checked ? "inline-block" : "none";
+  }
 }
 
-function clearBrand() {
-  document.getElementById("brand-container").innerHTML = "";
-  updateBrandOptions();
-  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" }
-  })
-  .then(res => res.text())
-  .then(msg => alert(msg));
+// --- Form Actions ---
+function submitForm() {
+  alert("Submitting all form data...");
 }
 
-function savePurchase() {
-  const inputs = document.querySelectorAll("#purchase-container input");
-  const locations = Array.from(inputs).map(input => input.value.trim()).filter(val => val !== "");
-
-  const data = {
-    sheet: "PurchasePrice", // The name of the sheet (optional, if your Google Script uses it)
-    locations: locations
-  };
-
-  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" }
-  })
-  .then(res => res.text())
-  .then(msg => alert(msg))
-  .catch(err => alert("Error: " + err));
-}
-function clearPurchase() {
-  document.getElementById("purchase-container").innerHTML = "";
-}
-
-function saveSpecialOffer() {
-  const inputs = document.querySelectorAll("special-offer-container input");
-  const locations = Array.from(inputs).map(input => input.value.trim()).filter(val => val !== "");
-
-  const data = {
-    sheet: "DeliveryLocation", // The name of the sheet (optional, if your Google Script uses it)
-    locations: locations
-  };
-
-  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" }
-  })
-  .then(res => res.text())
-  .then(msg => alert(msg))
-  .catch(err => alert("Error: " + err));
-}
-function clearSpecialOffer() {
-  document.getElementById("special-offer-container").innerHTML = "";
-}
-
-
-function addPaymentTermsEntry() {
-  const container = document.getElementById("payment-terms-container");
-  const div = document.createElement("div");
-  div.className = "form-row";
-  div.innerHTML = `
-    <select class="brand-select">
-      <option>Select Brand</option>
+// --- Category-specific Entry Functions ---
+function addShopCategory() {
+  addEntry("extra-categories", `
+    <select>
+      <option>Select category</option>
+      <option>Dessert Packages</option>
+      <option>Pickles</option>
+      <option>Sauces</option>
+      <option>Tinned Food</option>
+      <option>Vermicelli</option>
     </select>
-    <input type="text" placeholder="Select Category (Optional)">
-    <input type="text" placeholder="Payment Time">
-    <input type="text" placeholder="Payment Method">
-  `;
-  container.appendChild(div);
-  updateBrandOptions();
+    <input type="text" placeholder="Qty">`
+  );
 }
 
-function savePaymentTerms() {
- const inputs = document.querySelectorAll("payment-terms-container input");
-  const locations = Array.from(inputs).map(input => input.value.trim()).filter(val => val !== "");
-
-  const data = {
-    sheet: "PaymentTerms", // The name of the sheet (optional, if your Google Script uses it)
-    locations: locations
-  };
-
-  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" }
-  })
-  .then(res => res.text())
-  .then(msg => alert(msg))
-  .catch(err => alert("Error: " + err));
-}
-function clearPaymentTerms() {
-  document.getElementById("payment-terms-container").innerHTML = "";
-}
-
-function addPaymentTermsEntry() {
-  const container = document.getElementById("payment-terms-container");
-  const div = document.createElement("div");
-  div.className = "form-row";
-  div.innerHTML = `
-    <select class="brand-select">
-      <option>Select Brand</option>
+function addBrandEntry() {
+  addEntry("brand-container", `
+    <select>
+      <option>Select category</option>
+      <option>Dessert Packages</option>
+      <option>Pickles</option>
+      <option>Sauces</option>
+      <option>Tinned Food</option>
+      <option>Vermicelli</option>
     </select>
-    <input type="text" placeholder="Select Category (Optional)">
-    <input type="text" placeholder="Payment Time">
-    <input type="text" placeholder="Payment Method">
-  `;
-  container.appendChild(div);
-  updateBrandOptions();
+    <input type="text" placeholder="Brand name">
+    <input type="text" placeholder="Size">
+    <input type="text" placeholder="Price">`
+  );
 }
 
-function savePaymentTerms() {
- const inputs = document.querySelectorAll("payment-terms-container input");
-  const locations = Array.from(inputs).map(input => input.value.trim()).filter(val => val !== "");
-
-  const data = {
-    sheet: "PaymentTerms", // The name of the sheet (optional, if your Google Script uses it)
-    locations: locations
-  };
-
-  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" }
-  })
-  .then(res => res.text())
-  .then(msg => alert(msg))
-  .catch(err => alert("Error: " + err));
-}
-function clearSpecialOffer() {
-  document.getElementById("payment-terms-container").innerHTML = "";
-}
-
-
-function addAverageSalesEntry() {
-  const container = document.getElementById("average-sales-container");
-  const div = document.createElement("div");
-  div.className = "form-row";
-  div.innerHTML = `
+function addPurchaseEntry() {
+  addEntry("purchase-container", `
     <select>
       <option>Select category</option>
       <option>Dessert Packages</option>
@@ -285,77 +109,97 @@ function addAverageSalesEntry() {
       <option>Vermicelli</option>
     </select>
     <select class="brand-select">
-      <option>Select Brand (Optional)</option>
+      <option>Select Brand</option>
     </select>
-    <input type="text" placeholder="Indicators">
-    <input type="text" placeholder="Value">
+    <input type="text" placeholder="Size">
+    <input type="text" placeholder="Purchase Price">`
+  );
+}
+
+function addSpecialOfferEntry() {
+  const container = document.getElementById("special-offer-container");
+
+  // Reference the first row in Purchase Price to clone the dropdowns
+  const referenceRow = document.querySelector("#purchase-container .form-row");
+  const selects = referenceRow.querySelectorAll("select");
+
+  const div = document.createElement("div");
+  div.className = "form-row";
+  div.innerHTML = `
+    ${selects[1].outerHTML} <!-- Brand dropdown (2nd select from Purchase Price) -->
+    <input type="text" placeholder="Value/ctn">
+    <input type="text" placeholder="Condition">
   `;
   container.appendChild(div);
   updateBrandOptions();
 }
 
-function saveAverageSales() {
-  const inputs = document.querySelectorAll("#average-sales-container input");
-  const locations = Array.from(inputs).map(input => input.value.trim()).filter(val => val !== "");
+function addPaymentTermsEntry() {
+  const container = document.getElementById("payment-terms-container");
 
-  const data = {
-    sheet: "AverageSales", // The name of the sheet (optional, if your Google Script uses it)
-    locations: locations
-  };
+  // Get the first row to clone selects
+  const referenceRow = container.querySelector(".form-row");
+  if (!referenceRow) return;
 
-  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" }
-  })
-  .then(res => res.text())
-  .then(msg => alert(msg))
-  .catch(err => alert("Error: " + err));
+  const selects = referenceRow.querySelectorAll("select");
+
+  const div = document.createElement("div");
+  div.className = "form-row";
+  div.innerHTML = `
+    ${selects[0].outerHTML} <!-- Brand -->
+    ${selects[1].outerHTML} <!-- Payment Method -->
+    ${selects[2].outerHTML} <!-- Credit Days -->
+  `;
+  container.appendChild(div);
+  updateBrandOptions();
 }
-function clearAverageSales() {
-  document.getElementById("average-sales-container").innerHTML = "";
+
+function addAverageSalesEntry() {
+const container = document.getElementById("average-sales-container");
+
+  const referenceRow = container.querySelector(".form-row");
+  if (!referenceRow) return;
+
+  const selects = referenceRow.querySelectorAll("select");
+
+  const div = document.createElement("div");
+  div.className = "form-row";
+  div.innerHTML = `
+    ${selects[0].outerHTML} <!-- Category -->
+    ${selects[1].outerHTML} <!-- Brand -->
+    <input type="text" placeholder="Value">
+    ${selects[2].outerHTML} <!-- Units of measurement -->
+  `;
+  container.appendChild(div);
+  updateBrandOptions();
 }
+
 
 function addBuyingSourcesEntry() {
   const container = document.getElementById("buying-sources-container");
+
+  const referenceRow = container.querySelector(".form-row");
+  if (!referenceRow) return;
+
   const div = document.createElement("div");
   div.className = "form-row";
-  div.innerHTML = `
-    <select class="brand-select">
-      <option>Select Brand</option>
-    </select>
-    <input type="text" placeholder="Buying Source">
-  `;
+  div.innerHTML = referenceRow.innerHTML; // Clone full inner HTML
   container.appendChild(div);
-  updateBrandOptions();
-}
-function saveBuyingSources() {
-  const inputs = document.querySelectorAll("#buying-sources-container input");
-  const locations = Array.from(inputs).map(input => input.value.trim()).filter(val => val !== "");
 
-  const data = {
-    sheet: "BuyingSources", // The name of the sheet (optional, if your Google Script uses it)
-    locations: locations
-  };
+  // Re-attach event listeners for the new checkboxes
+  const checkboxes = div.querySelectorAll("input[type='checkbox']");
+  checkboxes.forEach(checkbox => {
+    checkbox.addEventListener("change", function () {
+      toggleOptions(checkbox);
+    });
+  });
 
-  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" }
-  })
-  .then(res => res.text())
-  .then(msg => alert(msg))
-  .catch(err => alert("Error: " + err));
+  updateBrandOptions(); // in case you want to sync brands
 }
-function clearBuyingSources() {
-  document.getElementById("buying-sources-container").innerHTML = "";
-}
+
 
 function addDistributionFrequencyEntry() {
-  const container = document.getElementById("distribution-frequency-container");
-  const div = document.createElement("div");
-  div.className = "form-row";
-  div.innerHTML = `
+  addEntry("distribution-frequency-container", `
     <select>
       <option>Select category</option>
       <option>Dessert Packages</option>
@@ -365,62 +209,38 @@ function addDistributionFrequencyEntry() {
       <option>Vermicelli</option>
     </select>
     <input type="text" placeholder="Frequency">
-    <input type="text" placeholder="Per month /per week">
-  `;
-  container.appendChild(div);
-}
-function saveDistributionFrequency() {
-  const inputs = document.querySelectorAll("#distribution-frequency-container input");
-  const locations = Array.from(inputs).map(input => input.value.trim()).filter(val => val !== "");
-
-  const data = {
-    sheet: "DistributionFrequency", // The name of the sheet (optional, if your Google Script uses it)
-    locations: locations
-  };
-
-  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" }
-  })
-  .then(res => res.text())
-  .then(msg => alert(msg))
-  .catch(err => alert("Error: " + err));
-}
-function clearDistributionFrequency() {
-  document.getElementById("distribution-frequency-container").innerHTML = "";
+    <input type="text" placeholder="Per month /per week">`
+  );
 }
 
 function addDeliveryLocationEntry() {
-  const container = document.getElementById("delivery-location-container");
-  const div = document.createElement("div");
-  div.className = "form-row";
-  div.innerHTML = `<input type="text" placeholder="Location">`;
-  container.appendChild(div);
-}
-function saveDeliveryLocation() {
-   const inputs = document.querySelectorAll("#delivery-location-container input");
-  const locations = Array.from(inputs).map(input => input.value.trim()).filter(val => val !== "");
-
-  const data = {
-    sheet: "DeliveryLocation", // The name of the sheet (optional, if your Google Script uses it)
-    locations: locations
-  };
-
-  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" }
-  })
-  .then(res => res.text())
-  .then(msg => alert(msg))
-  .catch(err => alert("Error: " + err));
-}
-function clearDeliveryLocation() {
-  document.getElementById("delivery-location-container").innerHTML = "";
+  addEntry("delivery-location-container", `<input type="text" placeholder="Location">`);
 }
 
-function submitForm() {
-  alert("Submitting all form data...");
-  // You will implement the function to gather all form data and send to Google Sheets.
-}
+// --- Save & Clear Functions ---
+function saveShop() { sendToSheet("ShopInformation", getInputValues("#shop-container input")); }
+function clearShop() { clearContainer("shop-container"); }
+
+function saveBrand() { sendToSheet("BrandInformation", getInputValues("#brand-container input")); }
+function clearBrand() { clearContainer("brand-container"); updateBrandOptions(); }
+
+function savePurchase() { sendToSheet("PurchasePrice", getInputValues("#purchase-container input")); }
+function clearPurchase() { clearContainer("purchase-container"); }
+
+function saveSpecialOffer() { sendToSheet("SpecialOffer", getInputValues("#special-offer-container input")); }
+function clearSpecialOffer() { clearContainer("special-offer-container"); }
+
+function savePaymentTerms() { sendToSheet("PaymentTerms", getInputValues("#payment-terms-container input")); }
+function clearPaymentTerms() { clearContainer("payment-terms-container"); }
+
+function saveAverageSales() { sendToSheet("AverageSales", getInputValues("#average-sales-container input")); }
+function clearAverageSales() { clearContainer("average-sales-container"); }
+
+function saveBuyingSources() { sendToSheet("BuyingSources", getInputValues("#buying-sources-container input")); }
+function clearBuyingSources() { clearContainer("buying-sources-container"); }
+
+function saveDistributionFrequency() { sendToSheet("DistributionFrequency", getInputValues("#distribution-frequency-container input")); }
+function clearDistributionFrequency() { clearContainer("distribution-frequency-container"); }
+
+function saveDeliveryLocation() { sendToSheet("DeliveryLocation", getInputValues("#delivery-location-container input")); }
+function clearDeliveryLocation() { clearContainer("delivery-location-container"); }
