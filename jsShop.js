@@ -305,19 +305,18 @@ function addDeliveryLocationEntry() {
 }
 
 // --- Save & Clear Functions ---
-function saveShop() { sendToSheet("ShopInformation", getInputValues("#shop-container input")); }
+
 function clearShop() { clearContainer("shop-container"); }
 
-function saveBrand() { sendToSheet("BrandInformation", getInputValues("#brand-container input")); }
+
 function clearBrand() { clearContainer("brand-container"); updateBrandOptions(); }
 
-function savePurchase() { sendToSheet("PurchasePrice", getInputValues("#purchase-container input")); }
+
 function clearPurchase() { clearContainer("purchase-container"); }
 
-function saveSpecialOffer() { sendToSheet("SpecialOffer", getInputValues("#special-offer-container input")); }
+
 function clearSpecialOffer() { clearContainer("special-offer-container"); }
 
-function savePaymentTerms() { sendToSheet("PaymentTerms", getInputValues("#payment-terms-container input")); }
 function clearPaymentTerms() { clearContainer("payment-terms-container"); }
 
 function saveAverageSales() { sendToSheet("AverageSales", getInputValues("#average-sales-container input")); }
