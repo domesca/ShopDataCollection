@@ -68,6 +68,25 @@ function submitForm() {
 }
 
 // --- Category-specific Entry Functions ---
+function saveArea() {
+  const city = document.getElementById("city").value.trim();
+  const town = document.getElementById("town").value.trim();
+  const borough = document.getElementById("borough").value.trim();
+  const postcode = document.getElementById("postcode1").value.trim();
+  const lane = document.getElementById("lane").value.trim();
+  const shopNumber = document.getElementById("shop-number").value.trim();
+
+  const values = [city, town, borough, postcode, lane, shopNumber];
+  sendToSheet("Area Information", values);
+}
+function clearArea() {
+  document.getElementById("city").value = "";
+  document.getElementById("town").value = "";
+  document.getElementById("borough").value = "";
+  document.getElementById("postcode1").value = "";
+  document.getElementById("lane").value = "";
+  document.getElementById("shop-number").value = "";
+}
 function addShopCategory() {
   addEntry("extra-categories", `
     <select>
