@@ -4,17 +4,6 @@ function getInputValues(selector) {
   return Array.from(inputs).map(i => i.value.trim()).filter(val => val !== "");
 }
 
-function sendToSheet(sheetName, values) {
-  const data = { sheet: sheetName, locations: values };
-  fetch("https://script.google.com/macros/s/AKfycbxF5JoO5KntmWqLhWrKYuAijxjjii0fE5EksRInjlkkpQ_Yuz49joUKldQ4Uj3jFqP3/exec", {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" }
-  })
-    .then(res => res.text())
-    .then(msg => alert(msg))
-    .catch(err => alert("Error: " + err));
-}
 
 function clearContainer(containerId) {
   document.getElementById(containerId).innerHTML = "";
@@ -69,16 +58,26 @@ function submitForm() {
 
 // --- Category-specific Entry Functions ---
 function saveArea() {
-  const city = document.getElementById("city").value.trim();
-  const town = document.getElementById("town").value.trim();
-  const borough = document.getElementById("borough").value.trim();
-  const postcode = document.getElementById("postcode1").value.trim();
-  const lane = document.getElementById("lane").value.trim();
-  const shopNumber = document.getElementById("shop-number").value.trim();
+  const data = {
+    section: "area",
+    city: document.getElementById("city").value.trim(),
+    town: document.getElementById("town").value.trim(),
+    borough: document.getElementById("borough").value.trim(),
+    postcode1: document.getElementById("postcode1").value.trim(),
+    lane: document.getElementById("lane").value.trim(),
+    shopNumber: document.getElementById("shop-number").value.trim()
+  };
 
-  const values = [city, town, borough, postcode, lane, shopNumber];
-  sendToSheet("Area Information", values);
+  fetch("https://script.google.com/macros/s/AKfycbxF5JoO5KntmWqLhWrKYuAijxjjii0fE5EksRInjlkkpQ_Yuz49joUKldQ4Uj3jFqP3/exec", {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: { "Content-Type": "application/json" }
+  })
+    .then(res => res.text())
+    .then(msg => alert(msg))
+    .catch(err => alert("Error: " + err));
 }
+
 function clearArea() {
   document.getElementById("city").value = "";
   document.getElementById("town").value = "";
