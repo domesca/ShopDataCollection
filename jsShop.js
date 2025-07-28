@@ -68,22 +68,20 @@ function saveArea() {
     shopNumber: document.getElementById("shop-number").value.trim()
   };
 
- fetch("https://76952caa-0470-47ca-ad9a-601e2f774c03-00-2zy36chsul1cv.janeway.replit.dev/submit", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    section: "area",
-    city: "London",
-    town: "Ealing",
-    borough: "West",
-    postcode1: "W5",
-    lane: "Some Lane",
-    shopNumber: "12A"
+  fetch("https://76952caa-0470-47ca-ad9a-601e2f774c03-00-2zy36chsul1cv.janeway.replit.dev/submit", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
   })
-})
-.then(res => res.text())
-.then(alert)
-.catch(err => alert("❌ " + err));
+  .then(res => res.text())
+  .then(response => {
+    if (response.includes("Error")) {
+      console.error("Server error:", response);
+    } else {
+      alert("✅ Data submitted successfully!");
+    }
+  })
+  .catch(err => alert("❌ " + err));
 }
 
 function clearArea() {
