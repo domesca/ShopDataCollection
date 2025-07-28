@@ -1,8 +1,9 @@
- // --- Utility Functions ---
+// --- Utility Functions ---
 function getInputValues(selector) {
   const inputs = document.querySelectorAll(selector);
   return Array.from(inputs).map(i => i.value.trim()).filter(val => val !== "");
 }
+
 
 function clearContainer(containerId) {
   document.getElementById(containerId).innerHTML = "";
@@ -44,11 +45,18 @@ function toggleOptions(checkbox) {
 
 function toggleWarehouseInput(checkbox) {
   const group = checkbox.closest(".warehouse-group");
-  const input = group?.querySelector(".warehouse-location");
-  if (input) input.style.display = checkbox.checked ? "inline-block" : "none";
+  if (group) {
+    const input = group.querySelector(".warehouse-location");
+    input.style.display = checkbox.checked ? "inline-block" : "none";
+  }
 }
 
-// --- Area Section ---
+// --- Form Actions ---
+function submitForm() {
+  alert("Submitting all form data...");
+}
+
+// --- Category-specific Entry Functions ---
 function saveArea() {
   const data = {
     section: "area",
@@ -77,11 +85,13 @@ function saveArea() {
 }
 
 function clearArea() {
-  ["city", "town", "borough", "postcode1", "lane", "shop-number"].forEach(id => {
-    document.getElementById(id).value = "";
-  });
+  document.getElementById("city").value = "";
+  document.getElementById("town").value = "";
+  document.getElementById("borough").value = "";
+  document.getElementById("postcode1").value = "";
+  document.getElementById("lane").value = "";
+  document.getElementById("shop-number").value = "";
 }
-
 // --- Shop Section ---
 function addShopCategory() {
   addEntry("extra-categories", `
