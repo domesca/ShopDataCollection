@@ -1,9 +1,8 @@
-  // --- Utility Functions ---
+ // --- Utility Functions ---
 function getInputValues(selector) {
   const inputs = document.querySelectorAll(selector);
   return Array.from(inputs).map(i => i.value.trim()).filter(val => val !== "");
 }
-
 
 function clearContainer(containerId) {
   document.getElementById(containerId).innerHTML = "";
@@ -45,18 +44,11 @@ function toggleOptions(checkbox) {
 
 function toggleWarehouseInput(checkbox) {
   const group = checkbox.closest(".warehouse-group");
-  if (group) {
-    const input = group.querySelector(".warehouse-location");
-    input.style.display = checkbox.checked ? "inline-block" : "none";
-  }
+  const input = group?.querySelector(".warehouse-location");
+  if (input) input.style.display = checkbox.checked ? "inline-block" : "none";
 }
 
-// --- Form Actions ---
-function submitForm() {
-  alert("Submitting all form data...");
-}
-
-// --- Category-specific Entry Functions ---
+// --- Area Section ---
 function saveArea() {
   const data = {
     section: "area",
@@ -85,16 +77,15 @@ function saveArea() {
 }
 
 function clearArea() {
-  document.getElementById("city").value = "";
-  document.getElementById("town").value = "";
-  document.getElementById("borough").value = "";
-  document.getElementById("postcode1").value = "";
-  document.getElementById("lane").value = "";
-  document.getElementById("shop-number").value = "";
+  ["city", "town", "borough", "postcode1", "lane", "shop-number"].forEach(id => {
+    document.getElementById(id).value = "";
+  });
 }
+
+// --- Shop Section ---
 function addShopCategory() {
   addEntry("extra-categories", `
-    <select>
+    <select class="shelf-category">
       <option>Select category</option>
       <option>Dessert Packages</option>
       <option>Pickles</option>
@@ -102,9 +93,10 @@ function addShopCategory() {
       <option>Tinned Food</option>
       <option>Vermicelli</option>
     </select>
-    <input type="text" placeholder="Qty">`
-  );
+    <input class="shelf-qty" type="text" placeholder="Qty">
+  `);
 }
+
 function saveShop() {
   const data = {
     section: "shop",
@@ -113,7 +105,6 @@ function saveShop() {
     shelves: []
   };
 
-  // Get all shelf categories and quantities
   const categories = document.querySelectorAll("#shelf-container .shelf-category");
   const quantities = document.querySelectorAll("#shelf-container .shelf-qty");
 
@@ -134,25 +125,33 @@ function saveShop() {
   .then(text => alert("✅ Shop data submitted!"))
   .catch(err => alert("❌ " + err));
 }
+
+function clearShop() {
+  clearContainer("shop-container");
+}
+
+// --- Brand Section ---
 function addBrandEntry() {
   addEntry("brand-container", `
-    <select>
-      <option>Select category</option>
-      <option>Dessert Packages</option>
-      <option>Pickles</option>
-      <option>Sauces</option>
-      <option>Tinned Food</option>
-      <option>Vermicelli</option>
-    </select>
-    <input type="text" placeholder="Brand name">
-    <input type="text" placeholder="Size">
-    <input type="text" placeholder="Price">`
-  );
+    <div class="form-row brand-row">
+      <select>
+        <option>Select category</option>
+        <option>Dessert Packages</option>
+        <option>Pickles</option>
+        <option>Sauces</option>
+        <option>Tinned Food</option>
+        <option>Vermicelli</option>
+      </select>
+      <input type="text" placeholder="Brand name">
+      <input type="text" placeholder="Size">
+      <input type="text" placeholder="Price">
+    </div>
+  `);
 }
+
 function saveBrand() {
   const container = document.getElementById("brand-container");
   const rows = container.querySelectorAll(".brand-row");
-
   const data = [];
 
   rows.forEach(row => {
@@ -161,19 +160,21 @@ function saveBrand() {
     const size = row.querySelectorAll("input")[1].value.trim();
     const price = row.querySelectorAll("input")[2].value.trim();
 
-    data.push({
-      section: "brand",
-      category,
-      brandName,
-      size,
-      price
-    });
+    if (category && brandName && size && price) {
+      data.push({
+        section: "brand",
+        category,
+        brandName,
+        size,
+        price
+      });
+    }
   });
 
   fetch("https://76952caa-0470-47ca-ad9a-601e2f774c03-00-2zy36chsul1cv.janeway.replit.dev/submit", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data)  // sending all rows at once
+    body: JSON.stringify(data)
   })
   .then(res => res.text())
   .then(response => {
@@ -185,148 +186,9 @@ function saveBrand() {
   })
   .catch(err => alert("❌ " + err));
 }
-function addPurchaseEntry() {
-  addEntry("purchase-container", `
-    <select>
-      <option>Select category</option>
-      <option>Dessert Packages</option>
-      <option>Pickles</option>
-      <option>Sauces</option>
-      <option>Tinned Food</option>
-      <option>Vermicelli</option>
-    </select>
-    <select class="brand-select">
-      <option>Select Brand</option>
-    </select>
-    <input type="text" placeholder="Size">
-    <input type="text" placeholder="Purchase Price">`
-  );
-}
 
-function addSpecialOfferEntry() {
-  const container = document.getElementById("special-offer-container");
-
-  // Reference the first row in Purchase Price to clone the dropdowns
-  const referenceRow = document.querySelector("#purchase-container .form-row");
-  const selects = referenceRow.querySelectorAll("select");
-
-  const div = document.createElement("div");
-  div.className = "form-row";
-  div.innerHTML = `
-    ${selects[1].outerHTML} <!-- Brand dropdown (2nd select from Purchase Price) -->
-    <input type="text" placeholder="Value/ctn">
-    <input type="text" placeholder="Condition">
-  `;
-  container.appendChild(div);
+function clearBrand() {
+  clearContainer("brand-container");
   updateBrandOptions();
-}
-
-function addPaymentTermsEntry() {
-  const container = document.getElementById("payment-terms-container");
-
-  // Get the first row to clone selects
-  const referenceRow = container.querySelector(".form-row");
-  if (!referenceRow) return;
-
-  const selects = referenceRow.querySelectorAll("select");
-
-  const div = document.createElement("div");
-  div.className = "form-row";
-  div.innerHTML = `
-    ${selects[0].outerHTML} <!-- Brand -->
-    ${selects[1].outerHTML} <!-- Payment Method -->
-    ${selects[2].outerHTML} <!-- Credit Days -->
-  `;
-  container.appendChild(div);
-  updateBrandOptions();
-}
-
-function addAverageSalesEntry() {
-const container = document.getElementById("average-sales-container");
-
-  const referenceRow = container.querySelector(".form-row");
-  if (!referenceRow) return;
-
-  const selects = referenceRow.querySelectorAll("select");
-
-  const div = document.createElement("div");
-  div.className = "form-row";
-  div.innerHTML = `
-    ${selects[0].outerHTML} <!-- Category -->
-    ${selects[1].outerHTML} <!-- Brand -->
-    <input type="text" placeholder="Value">
-    ${selects[2].outerHTML} <!-- Units of measurement -->
-  `;
-  container.appendChild(div);
-  updateBrandOptions();
-}
-
-
-function addBuyingSourcesEntry() {
-  const container = document.getElementById("buying-sources-container");
-
-  const referenceRow = container.querySelector(".form-row");
-  if (!referenceRow) return;
-
-  const div = document.createElement("div");
-  div.className = "form-row";
-  div.innerHTML = referenceRow.innerHTML; // Clone full inner HTML
-  container.appendChild(div);
-
-  // Re-attach event listeners for the new checkboxes
-  const checkboxes = div.querySelectorAll("input[type='checkbox']");
-  checkboxes.forEach(checkbox => {
-    checkbox.addEventListener("change", function () {
-      toggleOptions(checkbox);
-    });
-  });
-
-  updateBrandOptions(); // in case you want to sync brands
-}
-
-
-function addDistributionFrequencyEntry() {
-  addEntry("distribution-frequency-container", `
-    <select>
-      <option>Select category</option>
-      <option>Dessert Packages</option>
-      <option>Pickles</option>
-      <option>Sauces</option>
-      <option>Tinned Food</option>
-      <option>Vermicelli</option>
-    </select>
-    <input type="text" placeholder="Frequency">
-    <input type="text" placeholder="Per month /per week">`
-  );
-}
-
-function addDeliveryLocationEntry() {
-  addEntry("delivery-location-container", `<input type="text" placeholder="Location">`);
-}
-
-// --- Save & Clear Functions ---
-
-function clearShop() { clearContainer("shop-container"); }
-
-
-function clearBrand() { clearContainer("brand-container"); updateBrandOptions(); }
-
-
-function clearPurchase() { clearContainer("purchase-container"); }
-
-
-function clearSpecialOffer() { clearContainer("special-offer-container"); }
-
-function clearPaymentTerms() { clearContainer("payment-terms-container"); }
-
-function saveAverageSales() { sendToSheet("AverageSales", getInputValues("#average-sales-container input")); }
-function clearAverageSales() { clearContainer("average-sales-container"); }
-
-function saveBuyingSources() { sendToSheet("BuyingSources", getInputValues("#buying-sources-container input")); }
-function clearBuyingSources() { clearContainer("buying-sources-container"); }
-
-function saveDistributionFrequency() { sendToSheet("DistributionFrequency", getInputValues("#distribution-frequency-container input")); }
-function clearDistributionFrequency() { clearContainer("distribution-frequency-container"); }
-
-function saveDeliveryLocation() { sendToSheet("DeliveryLocation", getInputValues("#delivery-location-container input")); }
+}ut")); }
 function clearDeliveryLocation() { clearContainer("delivery-location-container"); }
