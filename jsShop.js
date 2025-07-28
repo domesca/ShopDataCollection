@@ -149,6 +149,41 @@ function addBrandEntry() {
     <input type="text" placeholder="Price">`
   );
 }
+function saveBrand() {
+  const container = document.getElementById("brand-container");
+  const rows = container.querySelectorAll(".form-row");
+
+  rows.forEach(row => {
+    const select = row.querySelector("select");
+    const brandInput = row.querySelector('input[placeholder="Brand name"]');
+    const sizeInput = row.querySelector('input[placeholder="Size"]');
+    const priceInput = row.querySelector('input[placeholder="Price"]');
+
+    const data = {
+      section: "brand",
+      shopName: document.getElementById("shop-name")?.value.trim() || "", // optional
+      category: select.value,
+      brandName: brandInput.value.trim(),
+      size: sizeInput.value.trim(),
+      price: priceInput.value.trim()
+    };
+
+    fetch("https://76952caa-0470-47ca-ad9a-601e2f774c03-00-2zy36chsul1cv.janeway.replit.dev/submit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.text())
+    .then(response => {
+      console.log("✅ Brand data saved:", response);
+      alert("✅ Brand data submitted successfully!");
+    })
+    .catch(err => {
+      console.error("❌ Error saving brand data:", err);
+      alert("❌ Error submitting brand data: " + err.message);
+    });
+  });
+}
 
 function addPurchaseEntry() {
   addEntry("purchase-container", `
