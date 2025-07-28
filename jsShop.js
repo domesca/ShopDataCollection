@@ -109,15 +109,22 @@ function saveShop() {
   const data = {
     section: "shop",
     shopName: document.getElementById("shop-name").value.trim(),
-    counters: document.getElementById("counters").value.trim(),
+    counterNumber: document.getElementById("counter-number").value.trim(),
     shelves: []
   };
 
-  const shelfRows = document.querySelectorAll("#shelf-container .form-row");
+  const shelfContainer = document.getElementById("extra-categories");
+  const shelfRows = shelfContainer.querySelectorAll(".form-row");
+
   shelfRows.forEach(row => {
-    const category = row.querySelector("select").value;
-    const qty = row.querySelector("input").value.trim();
-    data.shelves.push({ category, qty });
+    const select = row.querySelector("select");
+    const input = row.querySelector("input[type='text']");
+    if (select && input) {
+      data.shelves.push({
+        category: select.value,
+        quantity: input.value.trim()
+      });
+    }
   });
 
   fetch("https://76952caa-0470-47ca-ad9a-601e2f774c03-00-2zy36chsul1cv.janeway.replit.dev/submit", {
@@ -125,9 +132,9 @@ function saveShop() {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data)
   })
-    .then(res => res.text())
-    .then(alert)
-    .catch(err => alert("❌ " + err));
+  .then(res => res.text())
+  .then(text => alert("✅ Data submitted: " + text))
+  .catch(err => alert("❌ " + err));
 }
 function addBrandEntry() {
   addEntry("brand-container", `
