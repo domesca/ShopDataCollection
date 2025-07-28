@@ -3,18 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <title>Shop Data Collection</title>
-  <link rel="stylesheet" href="shop.css">
+  <link rel="stylesheet" href="CSS shop.css">
 </head>
 <body>
 
   <!-- Area Information -->
   <section>
     <h2>Area Information</h2>
-    <div class="form-row"><label>1. Borough</label><input id="borough" type="text"></div>
-    <div class="form-row"><label>2. Post Code</label><input id="postcode1" type="text"></div>
-    <div class="form-row"><label>3. Lane</label><input id="lane" type="text"></div>
-    <div class="form-row"><label>4. Post Code</label><input id="postcode2" type="text"></div>
-    <div class="form-row"><label>5. Shop number</label><input id="shop-number" type="text"></div>
+    <div class="form-row"><label>1.City</label><input id="city" type="text"></div>
+    <div class="form-row"><label>2.Town</label><input id="town" type="text"></div>
+    <div class="form-row"><label>3.Borough</label><input id="borough" type="text"></div>
+    <div class="form-row"><label>4.Post Code</label><input id="postcode1" type="text"></div>
+    <div class="form-row"><label>5.Lane</label><input id="lane" type="text"></div>
+    <div class="form-row"><label>6.Shop number</label><input id="shop-number" type="text"></div>
     <div class="button-row">
       <button onclick="saveArea()">Save</button>
       <button onclick="clearArea()">Delete</button>
@@ -24,10 +25,10 @@
   <!-- Shop Information -->
 <section>
   <h2>Shop Information</h2>
-  <div class="form-row"><label>6. Shop name</label><input id="shop-name" type="text"></div>
-  <div class="form-row"><label>7. No of counters</label><input id="counter-number" type="text"></div>
+  <div class="form-row"><label>7.Shop name</label><input id="shop-name" type="text"></div>
+  <div class="form-row"><label>8.No of counters</label><input id="counter-number" type="text"></div>
   <div class="form-row">
-    <label>8. No of shelves</label>
+    <label>7. No of shelves</label>
     <select>
       <option>Select category</option>
       <option>Dessert Packages</option>
@@ -71,6 +72,7 @@
     <button onclick="clearBrand()">Delete</button>
   </div>
 </section>
+
   <!-- Purchase Price -->
  <section>
   <h2>Purchase Price</h2>
@@ -97,6 +99,7 @@
     <button onclick="clearPurchase()">Delete</button>
   </div>
 </section>
+
     <!-- Special Offer-->
   <section>
   <h2>Special Offer</h2>
@@ -105,9 +108,9 @@
       <select class="brand-select">
         <option>Select Brand</option>
       </select>
-      <input type="text" placeholder="Value/ctn">
       <input type="text" placeholder="Condition">
-    </div>
+      <input type="text" placeholder="Value/ctn">
+       </div>
   </div>
   <div class="button-row">
     <button onclick="addSpecialOfferEntry()">Add Brand</button>
@@ -124,9 +127,25 @@
       <select class="brand-select">
         <option>Select Brand</option>
       </select>
-      <input type="text" placeholder="Select Category (Optional)">
-      <input type="text" placeholder="Payment Time">
-      <input type="text" placeholder="Payment Method">
+      
+      <select>
+        <option> Payment Method </option>
+            <option> Bill to bill</option>
+            <option> Advance </option>
+            <option> Credit</option>
+            <option> Partial Advance</option>
+            <option> Partial Credit </option>
+      </select>
+
+      <select>
+        <option> Credit Days</option>
+            <option>1 week</option>
+            <option> 2 weeks </option>
+            <option> 1 month </option>
+            <option> 2 months</option>
+            <option> +2 months </option>
+      </select>
+
     </div>
   </div>
   <div class="button-row">
@@ -152,8 +171,13 @@
       <select class="brand-select">
         <option>Select Brand (Optional)</option>
       </select>
-      <input type="text" placeholder="Indicators">
       <input type="text" placeholder="Value">
+      <select>
+        <option>Units of measurement</option>
+        <option>Units</option>
+        <option>Cartons</option>
+        <option>Value</option>
+      </select>
     </div>
   </div>
   <div class="button-row">
@@ -171,9 +195,62 @@
       <select class="brand-select">
         <option>Select Brand</option>
       </select>
-      <input type="text" placeholder="Buying Source">
+
+      <div class="checkbox-group">
+        <label>
+          <input type="checkbox" onchange="toggleOptions(this)">
+          Distributor
+        </label>
+        <div class="options-box" style="display: none;">
+          <label>Choose a percentage:</label>
+          <select>
+            <option value="">Select</option>
+            <option value="100">100%</option>
+            <option value="50-75%">50-75%</option>
+            <option value="25-50%">25%-50%</option>
+            <option value="25%">Less than 25%</option>
+          </select>
+        </div>
+      </div>
+
+      
+
+      <div class="checkbox-group">
+        <label>
+          <input type="checkbox" onchange="toggleOptions(this)">
+          Wholesale
+        </label>
+        <div class="options-box" style="display: none;">
+          <label>Choose a percentage:</label>
+          <select>
+            <option value="">Select</option>
+            <option value="100">100%</option>
+            <option value="50-75%">50-75%</option>
+            <option value="25-50%">25%-50%</option>
+            <option value="25%">Less than 25%</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="checkbox-group">
+        <label>
+          <input type="checkbox" onchange="toggleOptions(this)">
+          Supplier
+        </label>
+        <div class="options-box" style="display: none;">
+          <label>Choose a percentage:</label>
+          <select>
+            <option value="">Select</option>
+            <option value="100">100%</option>
+            <option value="50-75%">50-75%</option>
+            <option value="25-50%">25%-50%</option>
+            <option value="25%">Less than 25%</option>
+          </select>
+        </div>
+      </div>
     </div>
   </div>
+
   <div class="button-row">
     <button onclick="addBuyingSourcesEntry()">Add Brand</button>
     <button onclick="saveBuyingSources()">Save</button>
@@ -183,7 +260,7 @@
 
 <!-- Distribution Frequency-->
 <section>
-  <h2>Distribution Frequency</h2>
+  <h2>Buying Frequency</h2>
   <div id="distribution-frequency-container">
     <div class="form-row">
       <select>
@@ -194,8 +271,15 @@
         <option>Tinned Food</option>
         <option>Vermicelli</option>
       </select>
-      <input type="text" placeholder="Frequency">
-      <input type="text" placeholder="Per month /per week">
+      <select>
+         <option>Select a Frequency</option>
+        <option>More then twice a week</option>
+        <option>Twice a week</option>
+        <option>Once a week</option>
+         <option>Once every 2 weeks</option>
+          <option>Once a month</option>
+          <option>Not every month</option>
+      </select>
     </div>
   </div>
   <div class="button-row">
@@ -207,12 +291,28 @@
 
 <!-- Delivery Location-->
 <section>
-  <h2>Delivery Location</h2>
+   <h2>Delivery Location</h2>
   <div id="delivery-location-container">
     <div class="form-row">
-      <input type="text" placeholder="Location">
+
+      <!-- Store checkbox, no input needed -->
+      <label>
+        <input type="checkbox" onchange="toggleWarehouseInput(this)">
+        Store
+      </label>
+
+      <!-- Warehouse checkbox and hidden input -->
+      <div class="warehouse-group">
+        <label>
+          <input type="checkbox" onchange="toggleWarehouseInput(this)">
+          Warehouse
+        </label>
+        <input type="text" class="warehouse-location" placeholder="Add warehouse location" style="display: none;">
+      </div>
+
     </div>
   </div>
+
   <div class="button-row">
     <button onclick="saveDeliveryLocation()">Save</button>
     <button onclick="clearDeliveryLocation()">Delete</button>
@@ -220,24 +320,139 @@
   </div>
 </section>
 
-<!-- Orders Online-->
-<section>
-  <h2>Do they place orders online</h2>
-  <div class="form-row">
-    <input type="text" placeholder="YES/NO">
-  </div>
-  <div class="button-row">
-    <button onclick="alert('Place orders info saved ✅')">Save</button>
-    <button onclick="alert('Place orders info deleted')">Delete</button>
-  </div>
-</section>
+
 
 <!-- Sell Online-->
 <section>
-  <h2>Do they sell online</h2>
+  <h2>Generation Method</h2>
   <div class="form-row">
-    <input type="text" placeholder="YES/NO">
+    <select>
+        <option>Select category</option>
+        <option>Dessert Packages</option>
+        <option>Pickles</option>
+        <option>Sauces</option>
+        <option>Tinned Food</option>
+        <option>Vermicelli</option>
+      </select>
+
+      <select class="brand-select">
+        <option>Select Brand</option>
+      </select>
+
   </div>
+
+  <div class="checkbox-group">
+        <label>
+          <input type="checkbox" onchange="toggleOptions(this)">
+          Online
+        </label>
+        <div class="options-box" style="display: none;">
+          <label>Choose a frequency:</label>
+          <select>
+            <option value="">Select</option>
+            <option value="+2week">More than twice a week</option>
+            <option value="1week">Once a week</option>
+            <option value="12weeks">Once every two weeks</option>
+            <option value="1month">Once a month</option>
+            <option value="nmonth">Not every month</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="checkbox-group">
+        <label>
+          <input type="checkbox" onchange="toggleOptions(this)">
+          Call
+        </label>
+        <div class="options-box" style="display: none;">
+          <label>Choose a frequency:</label>
+          <select>
+            <option value="">Select</option>
+            <option value="+2week">More than twice a week</option>
+            <option value="1week">Once a week</option>
+            <option value="12weeks">Once every two weeks</option>
+            <option value="1month">Once a month</option>
+            <option value="nmonth">Not every month</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="checkbox-group">
+        <label>
+          <input type="checkbox" onchange="toggleOptions(this)">
+          Order Booker
+        </label>
+        <div class="options-box" style="display: none;">
+          <label>Choose a frequency:</label>
+          <select>
+            <option value="">Select</option>
+            <option value="+2week">More than twice a week</option>
+            <option value="1week">Once a week</option>
+            <option value="12weeks">Once every two weeks</option>
+            <option value="1month">Once a month</option>
+            <option value="nmonth">Not every month</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="checkbox-group">
+        <label>
+          <input type="checkbox" onchange="toggleOptions(this)">
+          Spot Salesman
+        </label>
+        <div class="options-box" style="display: none;">
+          <label>Choose a frequency:</label>
+          <select>
+            <option value="">Select</option>
+            <option value="+2week">More than twice a week</option>
+            <option value="1week">Once a week</option>
+            <option value="12weeks">Once every two weeks</option>
+            <option value="1month">Once a month</option>
+            <option value="nmonth">Not every month</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="checkbox-group">
+        <label>
+          <input type="checkbox" onchange="toggleOptions(this)">
+          Wholesale
+        </label>
+        <div class="options-box" style="display: none;">
+          <label>Choose a frequency:</label>
+          <select>
+            <option value="">Select</option>
+            <option value="+2week">More than twice a week</option>
+            <option value="1week">Once a week</option>
+            <option value="12weeks">Once every two weeks</option>
+            <option value="1month">Once a month</option>
+            <option value="nmonth">Not every month</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="checkbox-group">
+        <label>
+          <input type="checkbox" onchange="toggleOptions(this)">
+          Other generation method
+        </label>
+        <div class="options-box" style="display: none;">
+          <input type="text"placeholder="Add other generation method"> 
+          <label>Choose a frequency:</label>
+          <select>
+            <option value="">Select</option>
+            <option value="+2week">More than twice a week</option>
+            <option value="1week">Once a week</option>
+            <option value="12weeks">Once every two weeks</option>
+            <option value="1month">Once a month</option>
+            <option value="nmonth">Not every month</option>
+          </select>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
   <div class="button-row">
     <button onclick="alert('Sell online info saved ✅')">Save</button>
     <button onclick="alert('Sell online info deleted')">Delete</button>
@@ -251,437 +466,7 @@
   </div>
 </section>
 
-
-
-  <script>
-    function addShopCategory() {
-  const container = document.getElementById("extra-categories");
-  const div = document.createElement("div");
-  div.className = "form-row";
-  div.innerHTML = `
-    <select>
-      <option>Select category</option>
-      <option>Dessert Packages</option>
-      <option>Pickles</option>
-      <option>Sauces</option>
-      <option>Tinned Food</option>
-      <option>Vermicelli</option>
-    </select>
-    <input type="text" placeholder="Qty">
-  `;
-  container.appendChild(div);
-}
-
-function addBrandEntry() {
-  const container = document.getElementById("brand-container");
-  const div = document.createElement("div");
-  div.className = "form-row";
-  div.innerHTML = `
-    <select>
-      <option>Select category</option>
-      <option>Dessert Packages</option>
-      <option>Pickles</option>
-      <option>Sauces</option>
-      <option>Tinned Food</option>
-      <option>Vermicelli</option>
-    </select>
-    <input type="text" placeholder="Brand name">
-    <input type="text" placeholder="Size">
-    <input type="text" placeholder="Price">
-  `;
-  container.appendChild(div);
-  updateBrandOptions();
-}
-
-function addPurchaseEntry() {
-  const container = document.getElementById("purchase-container");
-  const div = document.createElement("div");
-  div.className = "form-row";
-  div.innerHTML = `
-    <select>
-      <option>Select category</option>
-      <option>Dessert Packages</option>
-      <option>Pickles</option>
-      <option>Sauces</option>
-      <option>Tinned Food</option>
-      <option>Vermicelli</option>
-    </select>
-    <select class="brand-select">
-      <option>Select Brand</option>
-    </select>
-    <input type="text" placeholder="Size">
-    <input type="text" placeholder="Purchase Price">
-  `;
-  container.appendChild(div);
-  updateBrandOptions();
-}
-
-function addSpecialOfferEntry() {
-  const container = document.getElementById("special-offer-container");
-  const div = document.createElement("div");
-  div.className = "form-row";
-  div.innerHTML = `
-    <select class="brand-select">
-      <option>Select Brand</option>
-    </select>
-    <input type="text" placeholder="Value/ctn">
-    <input type="text" placeholder="Condition">
-  `;
-  container.appendChild(div);
-  updateBrandOptions();
-}
-
-function updateBrandOptions() {
-  const brandInputs = document.querySelectorAll("#brand-container input[placeholder='Brand name']");
-  const brandNames = Array.from(brandInputs).map(input => input.value.trim()).filter(name => name);
-  const brandSelects = document.querySelectorAll(".brand-select");
-
-  brandSelects.forEach(select => {
-    const current = select.value;
-    select.innerHTML = '<option>Select Brand</option>';
-    brandNames.forEach(name => {
-      const opt = document.createElement("option");
-      opt.value = name;
-      opt.textContent = name;
-      select.appendChild(opt);
-    });
-    select.value = current;
-  });
-}
-
-function saveShop() {
-  const inputs = document.querySelectorAll("#shop-container input");
-  const locations = Array.from(inputs).map(input => input.value.trim()).filter(val => val !== "");
-
-  const data = {
-    sheet: "ShopInformation", // The name of the sheet (optional, if your Google Script uses it)
-    locations: locations
-  };
-
-  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" }
-  })
-  .then(res => res.text())
-  .then(msg => alert(msg))
-  .catch(err => alert("Error: " + err));
-}
-function clearShop() {
-  document.getElementById("shop-container").innerHTML = "";
-}
-
-function saveBrand() {
- const inputs = document.querySelectorAll("#brand-container input");
-  const locations = Array.from(inputs).map(input => input.value.trim()).filter(val => val !== "");
-
-  const data = {
-    sheet: "BrandInformation", // The name of the sheet (optional, if your Google Script uses it)
-    locations: locations
-  };
-
-  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" }
-  })
-  .then(res => res.text())
-  .then(msg => alert(msg))
-  .catch(err => alert("Error: " + err));
-}
-function clearBrand() {
-  document.getElementById("delivery-location-container").innerHTML = "";
-}
-
-function clearBrand() {
-  document.getElementById("brand-container").innerHTML = "";
-  updateBrandOptions();
-  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" }
-  })
-  .then(res => res.text())
-  .then(msg => alert(msg));
-}
-
-function savePurchase() {
-  const inputs = document.querySelectorAll("#purchase-container input");
-  const locations = Array.from(inputs).map(input => input.value.trim()).filter(val => val !== "");
-
-  const data = {
-    sheet: "PurchasePrice", // The name of the sheet (optional, if your Google Script uses it)
-    locations: locations
-  };
-
-  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" }
-  })
-  .then(res => res.text())
-  .then(msg => alert(msg))
-  .catch(err => alert("Error: " + err));
-}
-function clearPurchase() {
-  document.getElementById("purchase-container").innerHTML = "";
-}
-
-function saveSpecialOffer() {
-  const inputs = document.querySelectorAll("special-offer-container input");
-  const locations = Array.from(inputs).map(input => input.value.trim()).filter(val => val !== "");
-
-  const data = {
-    sheet: "DeliveryLocation", // The name of the sheet (optional, if your Google Script uses it)
-    locations: locations
-  };
-
-  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" }
-  })
-  .then(res => res.text())
-  .then(msg => alert(msg))
-  .catch(err => alert("Error: " + err));
-}
-function clearSpecialOffer() {
-  document.getElementById("special-offer-container").innerHTML = "";
-}
-
-
-function addPaymentTermsEntry() {
-  const container = document.getElementById("payment-terms-container");
-  const div = document.createElement("div");
-  div.className = "form-row";
-  div.innerHTML = `
-    <select class="brand-select">
-      <option>Select Brand</option>
-    </select>
-    <input type="text" placeholder="Select Category (Optional)">
-    <input type="text" placeholder="Payment Time">
-    <input type="text" placeholder="Payment Method">
-  `;
-  container.appendChild(div);
-  updateBrandOptions();
-}
-
-function savePaymentTerms() {
- const inputs = document.querySelectorAll("payment-terms-container input");
-  const locations = Array.from(inputs).map(input => input.value.trim()).filter(val => val !== "");
-
-  const data = {
-    sheet: "PaymentTerms", // The name of the sheet (optional, if your Google Script uses it)
-    locations: locations
-  };
-
-  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" }
-  })
-  .then(res => res.text())
-  .then(msg => alert(msg))
-  .catch(err => alert("Error: " + err));
-}
-function clearPaymentTerms() {
-  document.getElementById("payment-terms-container").innerHTML = "";
-}
-
-function addPaymentTermsEntry() {
-  const container = document.getElementById("payment-terms-container");
-  const div = document.createElement("div");
-  div.className = "form-row";
-  div.innerHTML = `
-    <select class="brand-select">
-      <option>Select Brand</option>
-    </select>
-    <input type="text" placeholder="Select Category (Optional)">
-    <input type="text" placeholder="Payment Time">
-    <input type="text" placeholder="Payment Method">
-  `;
-  container.appendChild(div);
-  updateBrandOptions();
-}
-
-function savePaymentTerms() {
- const inputs = document.querySelectorAll("payment-terms-container input");
-  const locations = Array.from(inputs).map(input => input.value.trim()).filter(val => val !== "");
-
-  const data = {
-    sheet: "PaymentTerms", // The name of the sheet (optional, if your Google Script uses it)
-    locations: locations
-  };
-
-  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" }
-  })
-  .then(res => res.text())
-  .then(msg => alert(msg))
-  .catch(err => alert("Error: " + err));
-}
-function clearSpecialOffer() {
-  document.getElementById("payment-terms-container").innerHTML = "";
-}
-
-
-function addAverageSalesEntry() {
-  const container = document.getElementById("average-sales-container");
-  const div = document.createElement("div");
-  div.className = "form-row";
-  div.innerHTML = `
-    <select>
-      <option>Select category</option>
-      <option>Dessert Packages</option>
-      <option>Pickles</option>
-      <option>Sauces</option>
-      <option>Tinned Food</option>
-      <option>Vermicelli</option>
-    </select>
-    <select class="brand-select">
-      <option>Select Brand (Optional)</option>
-    </select>
-    <input type="text" placeholder="Indicators">
-    <input type="text" placeholder="Value">
-  `;
-  container.appendChild(div);
-  updateBrandOptions();
-}
-
-function saveAverageSales() {
-  const inputs = document.querySelectorAll("#average-sales-container input");
-  const locations = Array.from(inputs).map(input => input.value.trim()).filter(val => val !== "");
-
-  const data = {
-    sheet: "AverageSales", // The name of the sheet (optional, if your Google Script uses it)
-    locations: locations
-  };
-
-  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" }
-  })
-  .then(res => res.text())
-  .then(msg => alert(msg))
-  .catch(err => alert("Error: " + err));
-}
-function clearAverageSales() {
-  document.getElementById("average-sales-container").innerHTML = "";
-}
-
-function addBuyingSourcesEntry() {
-  const container = document.getElementById("buying-sources-container");
-  const div = document.createElement("div");
-  div.className = "form-row";
-  div.innerHTML = `
-    <select class="brand-select">
-      <option>Select Brand</option>
-    </select>
-    <input type="text" placeholder="Buying Source">
-  `;
-  container.appendChild(div);
-  updateBrandOptions();
-}
-function saveBuyingSources() {
-  const inputs = document.querySelectorAll("#buying-sources-container input");
-  const locations = Array.from(inputs).map(input => input.value.trim()).filter(val => val !== "");
-
-  const data = {
-    sheet: "BuyingSources", // The name of the sheet (optional, if your Google Script uses it)
-    locations: locations
-  };
-
-  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" }
-  })
-  .then(res => res.text())
-  .then(msg => alert(msg))
-  .catch(err => alert("Error: " + err));
-}
-function clearBuyingSources() {
-  document.getElementById("buying-sources-container").innerHTML = "";
-}
-
-function addDistributionFrequencyEntry() {
-  const container = document.getElementById("distribution-frequency-container");
-  const div = document.createElement("div");
-  div.className = "form-row";
-  div.innerHTML = `
-    <select>
-      <option>Select category</option>
-      <option>Dessert Packages</option>
-      <option>Pickles</option>
-      <option>Sauces</option>
-      <option>Tinned Food</option>
-      <option>Vermicelli</option>
-    </select>
-    <input type="text" placeholder="Frequency">
-    <input type="text" placeholder="Per month /per week">
-  `;
-  container.appendChild(div);
-}
-function saveDistributionFrequency() {
-  const inputs = document.querySelectorAll("#distribution-frequency-container input");
-  const locations = Array.from(inputs).map(input => input.value.trim()).filter(val => val !== "");
-
-  const data = {
-    sheet: "DistributionFrequency", // The name of the sheet (optional, if your Google Script uses it)
-    locations: locations
-  };
-
-  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" }
-  })
-  .then(res => res.text())
-  .then(msg => alert(msg))
-  .catch(err => alert("Error: " + err));
-}
-function clearDistributionFrequency() {
-  document.getElementById("distribution-frequency-container").innerHTML = "";
-}
-
-function addDeliveryLocationEntry() {
-  const container = document.getElementById("delivery-location-container");
-  const div = document.createElement("div");
-  div.className = "form-row";
-  div.innerHTML = `<input type="text" placeholder="Location">`;
-  container.appendChild(div);
-}
-function saveDeliveryLocation() {
-   const inputs = document.querySelectorAll("#delivery-location-container input");
-  const locations = Array.from(inputs).map(input => input.value.trim()).filter(val => val !== "");
-
-  const data = {
-    sheet: "DeliveryLocation", // The name of the sheet (optional, if your Google Script uses it)
-    locations: locations
-  };
-
-  fetch("https://script.google.com/macros/s/AKfycbxTTwN2Kbwg-k2jjeYwy_GdzoY2YoOqUREqHPvKzyg6nrKvGx-aOb7bdNNW-j7eKgiE/exec", {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" }
-  })
-  .then(res => res.text())
-  .then(msg => alert(msg))
-  .catch(err => alert("Error: " + err));
-}
-function clearDeliveryLocation() {
-  document.getElementById("delivery-location-container").innerHTML = "";
-}
-
-function submitForm() {
-  alert("Submitting all form data...");
-  // You will implement the function to gather all form data and send to Google Sheets.
-}
-
-  </script>
-
+  <script src="jsShop.js" defer></script>
+  
 </body>
 </html>
