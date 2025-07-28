@@ -113,19 +113,17 @@ function saveShop() {
     shelves: []
   };
 
-  const shelfContainer = document.getElementById("extra-categories");
-  const shelfRows = shelfContainer.querySelectorAll(".form-row");
+  // Get all shelf categories and quantities
+  const categories = document.querySelectorAll("#shelf-container .shelf-category");
+  const quantities = document.querySelectorAll("#shelf-container .shelf-qty");
 
-  shelfRows.forEach(row => {
-    const select = row.querySelector("select");
-    const input = row.querySelector("input[type='text']");
-    if (select && input) {
-      data.shelves.push({
-        category: select.value,
-        quantity: input.value.trim()
-      });
+  for (let i = 0; i < categories.length; i++) {
+    const category = categories[i].value;
+    const qty = quantities[i].value.trim();
+    if (category !== "Select category" && qty !== "") {
+      data.shelves.push({ category, quantity: qty });
     }
-  });
+  }
 
   fetch("https://76952caa-0470-47ca-ad9a-601e2f774c03-00-2zy36chsul1cv.janeway.replit.dev/submit", {
     method: "POST",
@@ -133,7 +131,7 @@ function saveShop() {
     body: JSON.stringify(data)
   })
   .then(res => res.text())
-  .then(text => alert("✅ Data submitted: " + text))
+  .then(text => alert("✅ Shop data submitted!"))
   .catch(err => alert("❌ " + err));
 }
 function addBrandEntry() {
