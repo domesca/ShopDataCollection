@@ -22,24 +22,33 @@
     </div>
   </section>
 
-  <!-- Shop Information -->
-<section>
+  <!-- Shop Information --><section>
   <h2>Shop Information</h2>
-  <div class="form-row"><label>7.Shop name</label><input id="shop-name" type="text"></div>
-  <div class="form-row"><label>8.No of counters</label><input id="counter-number" type="text"></div>
+
   <div class="form-row">
-    <label>7. No of shelves</label>
-    <select>
-      <option>Select category</option>
-      <option>Dessert Packages</option>
-      <option>Pickles</option>
-      <option>Sauces</option>
-      <option>Tinned Food</option>
-      <option>Vermicelli</option>
-    </select>
-    <input type="text" placeholder="Qty">
+    <label>7. Shop name</label>
+    <input id="shop-name" type="text">
   </div>
-  <div id="extra-categories"></div>
+
+  <div class="form-row">
+    <label>8. No of counters</label>
+    <input id="counter-number" type="text">
+  </div>
+  <div id="shelf-container">
+    <div class="form-row">
+      <label>7. No of shelves</label>
+      <select>
+        <option>Select category</option>
+        <option>Dessert Packages</option>
+        <option>Pickles</option>
+        <option>Sauces</option>
+        <option>Tinned Food</option>
+        <option>Vermicelli</option>
+      </select>
+      <input type="text" placeholder="Qty">
+    </div>
+  </div>
+
   <div class="button-row">
     <button onclick="addShopCategory()">Add Category</button>
     <button onclick="saveShop()">Save</button>
