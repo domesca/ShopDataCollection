@@ -68,7 +68,7 @@ function saveArea() {
     shopNumber: document.getElementById("shop-number").value.trim()
   };
 
-  fetch("https://script.google.com/macros/s/AKfycbxF5JoO5KntmWqLhWrKYuAijxjjii0fE5EksRInjlkkpQ_Yuz49joUKldQ4Uj3jFqP3/exec", {
+  fetch("https://script.google.com/macros/s/AKfycbwF8GLk_Smx9p34EHEvA9761PIWtLj-dmx8f7QtmN_yS0B7IdSHA_ZDYjHzdEIKvJgI/exec", {
     method: "POST",
     body: JSON.stringify(data),
     headers: { "Content-Type": "application/json" }
