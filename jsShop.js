@@ -68,7 +68,7 @@ function saveArea() {
     shopNumber: document.getElementById("shop-number").value.trim()
   };
 
- fetch("https://replit.com/@domeseminario90/FewMonthlyVoxels#package.json", {
+ fetch("https://76952caa-0470-47ca-ad9a-601e2f774c03-00-2zy36chsul1cv.janeway.replit.dev/", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
