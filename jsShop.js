@@ -4,7 +4,6 @@ function getInputValues(selector) {
   return Array.from(inputs).map(i => i.value.trim()).filter(val => val !== "");
 }
 
-
 function clearContainer(containerId) {
   document.getElementById(containerId).innerHTML = "";
 }
@@ -45,18 +44,11 @@ function toggleOptions(checkbox) {
 
 function toggleWarehouseInput(checkbox) {
   const group = checkbox.closest(".warehouse-group");
-  if (group) {
-    const input = group.querySelector(".warehouse-location");
-    input.style.display = checkbox.checked ? "inline-block" : "none";
-  }
+  const input = group?.querySelector(".warehouse-location");
+  if (input) input.style.display = checkbox.checked ? "inline-block" : "none";
 }
 
-// --- Form Actions ---
-function submitForm() {
-  alert("Submitting all form data...");
-}
-
-// --- Category-specific Entry Functions ---
+// --- Area Section ---
 function saveArea() {
   const data = {
     section: "area",
@@ -75,23 +67,17 @@ function saveArea() {
   })
   .then(res => res.text())
   .then(response => {
-    if (response.includes("Error")) {
-      console.error("Server error:", response);
-    } else {
-      alert("✅ Data submitted successfully!");
-    }
+    alert("✅ Area data submitted!");
   })
   .catch(err => alert("❌ " + err));
 }
 
 function clearArea() {
-  document.getElementById("city").value = "";
-  document.getElementById("town").value = "";
-  document.getElementById("borough").value = "";
-  document.getElementById("postcode1").value = "";
-  document.getElementById("lane").value = "";
-  document.getElementById("shop-number").value = "";
+  ["city", "town", "borough", "postcode1", "lane", "shop-number"].forEach(id => {
+    document.getElementById(id).value = "";
+  });
 }
+
 // --- Shop Section ---
 function addShopCategory() {
   addEntry("shelf-container", `
@@ -127,7 +113,7 @@ function saveShop() {
 
   for (let i = 0; i < categories.length; i++) {
     const category = categories[i].value;
-    const qty = quantities[i].value.trim();
+    const qty = quantities[i].value;
     if (category !== "Select category" && qty !== "") {
       data.shelves.push({ category, quantity: qty });
     }
@@ -144,64 +130,10 @@ function saveShop() {
 }
 
 function clearShop() {
-  clearContainer("shop-container");
+  clearContainer("shelf-container");
 }
 
 // --- Brand Section ---
-function addBrandEntry() {
-  addEntry("brand-container", `
-    <div class="form-row brand-row">
-      <select>
-        <option>Select category</option>
-        <option>Dessert Packages</option>
-        <option>Pickles</option>
-        <option>Sauces</option>
-        <option>Tinned Food</option>
-        <option>Vermicelli</option>
-      </select>
-      <input type="text" placeholder="Brand name">
-      <input type="text" placeholder="Size">
-      <input type="text" placeholder="Price">
-    </div>
-  `);
-}
-
-function saveBrand() {
-  const rows = document.querySelectorAll(".brand-row");
-  const brandData = [];
-
-  rows.forEach(row => {
-    const category = row.querySelector("select").value;
-    const brandName = row.querySelectorAll("input")[0].value;
-    const size = row.querySelectorAll("input")[1].value;
-    const price = row.querySelectorAll("input")[2].value;
-
-    brandData.push({
-      category,
-      brandName,
-      size,
-      price
-    });
-  });
-
-  const payload = {
-    section: "brand",
-    shopName: "Shop A", // Replace with dynamic input if needed
-    data: brandData
-  };
-
-  fetch("https://76952caa-0470-47ca-ad9a-601e2f774c03-00-2zy36chsul1cv.janeway.replit.dev/submit", {
-    method: "POST",
-    body: JSON.stringify(payload),
-    headers: {
-      "Content-Type": "application/json"
-    }
-  })
-    .then(res => res.text())
-    .then(res => alert("Saved!"))
-    .catch(err => alert("Error: " + err));
-}
-
 function addBrandEntry() {
   const container = document.getElementById("brand-container");
   const div = document.createElement("div");
@@ -222,56 +154,43 @@ function addBrandEntry() {
   container.appendChild(div);
 }
 
-function clearBrand() {
-  document.getElementById("brand-container").innerHTML = "";
-  addBrandEntry(); // Always keep one row
-}
-
-
-
-function clearBrand() {
-  clearContainer("brand-container");
-  updateBrandOptions();
-}
-function clearDeliveryLocation() { clearContainer("delivery-location-container"); }
-
-// --- Purchase ---
-function savePurchase() {
-  const container = document.getElementById("purchase-container");
-  const rows = container.querySelectorAll(".form-row");
-
-  const data = [];
+function saveBrand() {
+  const rows = document.querySelectorAll(".brand-row");
+  const brandData = [];
 
   rows.forEach(row => {
-    const selects = row.querySelectorAll("select");
-    const category = selects[0]?.value.trim();
-    const brand = selects[1]?.value.trim();
-    const size = row.querySelector("input[placeholder='Size']").value.trim();
-    const price = row.querySelector("input[placeholder='Purchase Price']").value.trim();
+    const category = row.querySelector("select").value;
+    const brandName = row.querySelectorAll("input")[0].value;
+    const size = row.querySelectorAll("input")[1].value;
+    const price = row.querySelectorAll("input")[2].value;
 
-    if (category && brand && size && price) {
-      data.push({
-        section: "purchase",
+    if (category && brandName && size && price) {
+      brandData.push({
         category,
-        brand,
+        brandName,
         size,
-        purchasePrice: price
+        price
       });
     }
   });
 
+  const payload = {
+    section: "brand",
+    shopName: document.getElementById("shop-name").value.trim() || "Unnamed Shop",
+    data: brandData
+  };
+
   fetch("https://76952caa-0470-47ca-ad9a-601e2f774c03-00-2zy36chsul1cv.janeway.replit.dev/submit", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data)
+    body: JSON.stringify(payload)
   })
-  .then(res => res.text())
-  .then(response => {
-    if (response.includes("Error")) {
-      console.error("Server error:", response);
-    } else {
-      alert("✅ Purchase data submitted successfully!");
-    }
-  })
-  .catch(err => alert("❌ " + err));
+    .then(res => res.text())
+    .then(res => alert("✅ Brand info submitted!"))
+    .catch(err => alert("❌ Error: " + err));
+}
+
+function clearBrand() {
+  clearContainer("brand-container");
+  addBrandEntry(); // keep 1 default
 }
