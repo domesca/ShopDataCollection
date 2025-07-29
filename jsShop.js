@@ -159,6 +159,15 @@ function addBrandEntry() {
   `);
 }
 
+
+
+function clearBrand() {
+  clearContainer("brand-container");
+  updateBrandOptions();
+}
+function clearDeliveryLocation() { clearContainer("delivery-location-container"); }
+
+// --- Purchase ---
 function savePurchase() {
   const container = document.getElementById("purchase-container");
   const rows = container.querySelectorAll(".form-row");
@@ -198,51 +207,3 @@ function savePurchase() {
   })
   .catch(err => alert("❌ " + err));
 }
-
-
-function clearBrand() {
-  clearContainer("brand-container");
-  updateBrandOptions();
-}
-function clearDeliveryLocation() { clearContainer("delivery-location-container"); }
-
-// --- Purchase ---
-function savePurchase() {
-  const container = document.getElementById("purchase-container");
-  const rows = container.querySelectorAll(".form-row");
-
-  const data = [];
-
-  rows.forEach(row => {
-    const category = row.querySelector("select").value.trim();
-    const brand = row.querySelectorAll("select")[1].value.trim();
-    const size = row.querySelector("input[placeholder='Size']").value.trim();
-    const price = row.querySelector("input[placeholder='Purchase Price']").value.trim();
-
-    if (category && brand && size && price) {
-      data.push({
-        section: "purchase",
-        category,
-        brand,
-        size,
-        purchasePrice: price
-      });
-    }
-  });
-
-  fetch("https://76952caa-0470-47ca-ad9a-601e2f774c03-00-2zy36chsul1cv.janeway.replit.dev/submit", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data)
-  })
-  .then(res => res.text())
-  .then(response => {
-    if (response.includes("Error")) {
-      console.error("Server error:", response);
-    } else {
-      alert("✅ Purchase data submitted successfully!");
-    }
-  })
-  .catch(err => alert("❌ " + err));
-}
-
