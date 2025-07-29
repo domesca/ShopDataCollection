@@ -203,7 +203,7 @@ function savePurchase() {
 function clearBrand() {
   clearContainer("brand-container");
   updateBrandOptions();
-}ut")); }
+
 function clearDeliveryLocation() { clearContainer("delivery-location-container"); }
 
 // --- Purchase ---
