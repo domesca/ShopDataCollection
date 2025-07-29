@@ -166,6 +166,67 @@ function addBrandEntry() {
   `);
 }
 
+function saveBrand() {
+  const rows = document.querySelectorAll(".brand-row");
+  const brandData = [];
+
+  rows.forEach(row => {
+    const category = row.querySelector("select").value;
+    const brandName = row.querySelectorAll("input")[0].value;
+    const size = row.querySelectorAll("input")[1].value;
+    const price = row.querySelectorAll("input")[2].value;
+
+    brandData.push({
+      category,
+      brandName,
+      size,
+      price
+    });
+  });
+
+  const payload = {
+    section: "brand",
+    shopName: "Shop A", // Replace with dynamic input if needed
+    data: brandData
+  };
+
+  fetch("https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec", {
+    method: "POST",
+    body: JSON.stringify(payload),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+    .then(res => res.text())
+    .then(res => alert("Saved!"))
+    .catch(err => alert("Error: " + err));
+}
+
+function addBrandEntry() {
+  const container = document.getElementById("brand-container");
+  const div = document.createElement("div");
+  div.className = "form-row brand-row";
+  div.innerHTML = `
+    <select>
+      <option>Select category</option>
+      <option>Dessert Packages</option>
+      <option>Pickles</option>
+      <option>Sauces</option>
+      <option>Tinned Food</option>
+      <option>Vermicelli</option>
+    </select>
+    <input type="text" placeholder="Brand name">
+    <input type="text" placeholder="Size">
+    <input type="text" placeholder="Price">
+  `;
+  container.appendChild(div);
+}
+
+function clearBrand() {
+  document.getElementById("brand-container").innerHTML = "";
+  addBrandEntry(); // Always keep one row
+}
+
 
 
 function clearBrand() {
