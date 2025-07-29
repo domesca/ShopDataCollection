@@ -23,38 +23,48 @@
   </section>
 
   <!-- Shop Information --><section>
-  <h2>Shop Information</h2>
+<h2>Shop Information</h2>
 
-  <div class="form-row">
-    <label>7. Shop name</label>
-    <input id="shop-name" type="text">
-  </div>
+<div class="form-row">
+  <label>7. Shop name</label>
+  <input id="shop-name" type="text">
+</div>
 
+<div class="form-row">
+  <label>8. No of counters</label>
+  <input id="counter-number" type="text">
+</div>
+
+<div class="form-row">
+  <label>9. No of shelves</label>
+</div>
+
+<div id="shelf-container">
   <div class="form-row">
-    <label>8. No of counters</label>
-    <input id="counter-number" type="text">
-  </div>
- <div id="shelf-container">
-  <div class="form-row">
-    <label>7. No of shelves</label>
-    <div id="shelf-container">
+    <select class="shelf-category">
       <option>Select category</option>
       <option>Dessert Packages</option>
       <option>Pickles</option>
       <option>Sauces</option>
       <option>Tinned Food</option>
       <option>Vermicelli</option>
-    </div>
-    <input class="shelf-qty" type="text" placeholder="Qty">
+    </select>
+    <select class="shelf-qty">
+      <option value="">Select quantity</option>
+      <option value="1">1 shelf</option>
+      <option value="2">2 shelves</option>
+      <option value="3">3 shelves</option>
+      <option value="4">4 shelves</option>
+      <option value="5+">5 or more</option>
+    </select>
   </div>
 </div>
 
-  <div class="button-row">
-    <button onclick="addShopCategory()">Add Category</button>
-    <button onclick="saveShop()">Save</button>
-    <button onclick="clearShop()">Delete</button>
-  </div>
-</section>
+<div class="button-row">
+  <button onclick="addShopCategory()">Add Category</button>
+  <button onclick="saveShop()">Save</button>
+  <button onclick="clearShop()">Delete</button>
+</div>
 
 
   <!-- Brand Information -->
