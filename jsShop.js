@@ -190,7 +190,7 @@ function saveBrand() {
     data: brandData
   };
 
-  fetch("https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec", {
+  fetch("https://76952caa-0470-47ca-ad9a-601e2f774c03-00-2zy36chsul1cv.janeway.replit.dev/", {
     method: "POST",
     body: JSON.stringify(payload),
     headers: {
