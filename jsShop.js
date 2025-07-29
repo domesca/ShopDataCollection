@@ -94,7 +94,7 @@ function clearArea() {
 }
 // --- Shop Section ---
 function addShopCategory() {
-  addEntry("extra-categories", `
+  addEntry("shelf-container", `
     <select class="shelf-category">
       <option>Select category</option>
       <option>Dessert Packages</option>
@@ -103,7 +103,14 @@ function addShopCategory() {
       <option>Tinned Food</option>
       <option>Vermicelli</option>
     </select>
-    <input class="shelf-qty" type="text" placeholder="Qty">
+    <select class="shelf-qty">
+      <option value="">Select quantity</option>
+      <option value="1">1 shelf</option>
+      <option value="2">2 shelves</option>
+      <option value="3">3 shelves</option>
+      <option value="4">4 shelves</option>
+      <option value="5+">5 or more</option>
+    </select>
   `);
 }
 
